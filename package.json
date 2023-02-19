@@ -32,7 +32,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"iconify-icon": "^1.0.5",
-		"sass": "^1.58.3"
+		"firebase": "^9.17.1",
+		"iconify-icon": "^1.0.5"
 	}
 }

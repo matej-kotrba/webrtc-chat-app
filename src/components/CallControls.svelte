@@ -1,13 +1,8 @@
 <div class="callControls">
-	<button class="">
+	<button
+		class="text-[3rem] rounded-full bg-red-500 p-2 text-white
+	aspect-square grid content-center"
+	>
 		<iconify-icon icon="ic:round-local-phone" />
 	</button>
 </div>
-
-<style lang="scss">
-	.callControls {
-		& > button {
-			background-color: red;
-		}
-	}
-</style>
