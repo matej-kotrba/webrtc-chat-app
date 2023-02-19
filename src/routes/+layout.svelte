@@ -4,6 +4,7 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 
 	const servers = {
 		iceServers: [
@@ -16,9 +17,9 @@
 
 	setContext('iceServers', servers);
 
-	setContext('peerConnection', writable(new RTCPeerConnection(servers)));
-
-	onMount(() => {});
+	if (browser) {
+		setContext('peerConnection', writable(new RTCPeerConnection(servers)));
+	}
 </script>
 
 <main class="container mx-auto">
