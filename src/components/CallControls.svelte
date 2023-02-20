@@ -1,44 +1,16 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import type { DevicesState } from './video';
 
-	const pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
-
-	let localStream = null;
-	let remoteStream = null;
-
-	async function onEnableCamera() {
-		try {
-			localStream = await navigator.mediaDevices.getUserMedia({
-				audio: true,
-				video: true
-			});
-
-			remoteStream = new MediaStream();
-
-			console.log(localStream);
-
-			localStream.getTracks().forEach((track) => {
-				console.log(track);
-				$pcStore.addTrack(track);
-			});
-		} catch (err) {
-			console.error(err);
-		}
-	}
-
-	type DevicesState = {
-		isCameraOn: boolean;
-	};
-
-	let devicesState: DevicesState = {
-		isCameraOn: false
-	};
+	export let devicesState: DevicesState;
+	export let onEnableCamera: () => void = () => {};
+	export let onEnableMic: () => void = () => {};
+	export let onCallLeave: () => void = () => {};
 </script>
 
 <!-- Call controls -->
 <div class="flex gap-2.5">
 	<button
+		on:click={onCallLeave}
 		class="text-[3rem] rounded-full bg-red-500 p-2 text-white
 	aspect-square grid content-center"
 	>
