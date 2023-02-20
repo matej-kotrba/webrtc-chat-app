@@ -1,12 +1,16 @@
 <script lang="ts">
 	import Video from './Video.svelte';
 	import CallControls from './CallControls.svelte';
+	import JoinRoom from './JoinRoom.svelte';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import type { DevicesState } from './video';
 
-	const pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
+	let pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
+	let isInCall: Writable<boolean> = getContext('isInCall');
+
+	console.log('Component:' + $isInCall);
 
 	const availableDevices: Record<string, boolean> = {
 		audio: false,
@@ -62,6 +66,7 @@
 </script>
 
 <div class="video-chat">
+	<JoinRoom onJoin={onCallJoin} />
 	<Video />
 	<Video />
 	<CallControls {devicesState} />

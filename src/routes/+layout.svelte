@@ -19,6 +19,7 @@
 
 	if (browser) {
 		setContext('peerConnection', writable(new RTCPeerConnection(servers)));
+		setContext('isInCall', writable(false));
 	}
 </script>
 

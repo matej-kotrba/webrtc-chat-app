@@ -26,6 +26,7 @@
 		</button>
 	{:else}
 		<button
+			on:click={onEnableCamera}
 			class="text-[3rem] rounded-full bg-white p-2 text-slate-800
 		aspect-square grid content-center"
 		>
