@@ -1,6 +1,18 @@
-<!-- TODO: make user get name and video src -->
+<script lang="ts">
+	import { onMount } from 'svelte';
+
+	export let videoSource: MediaStream | null = null;
+
+	let video: HTMLVideoElement;
+
+	onMount(() => {
+		video.srcObject = videoSource;
+	});
+</script>
+
 <h3>This is user ...</h3>
 <video
+	bind:this={video}
 	autoplay
 	playsinline
 	poster="../../videoCover.png"
