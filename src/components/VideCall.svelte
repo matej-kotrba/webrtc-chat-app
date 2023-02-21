@@ -6,7 +6,15 @@
 	import type { Writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import type { DevicesState } from './video';
-	import { collection, doc, addDoc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
+	import {
+		collection,
+		doc,
+		addDoc,
+		setDoc,
+		onSnapshot,
+		getDoc,
+		updateDoc
+	} from 'firebase/firestore';
 	import { firestore } from '../config/firebase';
 
 	let pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
@@ -70,7 +78,6 @@
 			const offerCandidates = collection(callDoc, 'offerCandidates');
 			const answerCandidates = collection(callDoc, 'answerCandidates');
 
-			console.log(callDoc.id);
 			callId = callDoc.id;
 			if (callIdInput) {
 				callIdInput.value = callDoc.id;
@@ -83,7 +90,6 @@
 			const offerDescription = await $pcStore.createOffer();
 			await $pcStore.setLocalDescription(offerDescription);
 
-			console.log('adasd');
 			const offer = {
 				sdp: offerDescription.sdp,
 				type: offerDescription.type
@@ -133,6 +139,23 @@
 
 			const answerDescription = await $pcStore.createAnswer();
 			await $pcStore.setLocalDescription(answerDescription);
+
+			const answer = {
+				type: answerDescription.type,
+				sdp: answerDescription.sdp
+			};
+
+			await updateDoc(callDoc, { answer });
+
+			onSnapshot(offerCandidates, (snapshot) => {
+				snapshot.docChanges().forEach((change) => {
+					console.log(change);
+					if (change.type === 'added') {
+						let data = change.doc.data();
+						$pcStore.addIceCandidate(new RTCIceCandidate(data));
+					}
+				});
+			});
 		} catch (err) {
 			console.error(err);
 		}
@@ -140,7 +163,8 @@
 </script>
 
 <div class="video-chat">
-	<input bind:value={callId} bind:this={callIdInput} />
+	<input bind:value={callId} bind:this={callIdInput} class="text-black" />
+	<button on:click={onCallAnswer} class="p-4 bg-red-600">Answer</button>
 	<JoinRoom onJoin={onCallJoin} />
 	<Video videoSource={localStream} />
 	<Video videoSource={remoteStream} />
