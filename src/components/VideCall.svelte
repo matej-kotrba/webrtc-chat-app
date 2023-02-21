@@ -5,12 +5,15 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import { onMount } from 'svelte';
-	import { firebase } from '../config/firebase';
 	import type { DevicesState } from './video';
-	import { collection, doc, addDoc, setDoc, onSnapshot } from 'firebase/firestore';
+	import { collection, doc, addDoc, setDoc, onSnapshot, getDoc } from 'firebase/firestore';
+	import { firestore } from '../config/firebase';
 
 	let pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
 	let isInCall: Writable<boolean> = getContext('isInCall');
+
+	let callIdInput: null | HTMLInputElement = null;
+	let callId = '';
 
 	let devicesState: DevicesState = {
 		isCameraOn: false,
@@ -36,6 +39,7 @@
 
 	async function onCallJoin() {
 		try {
+			if (!firestore) return;
 			if (!availableDevices.audio) {
 				console.log('You need microphone to enter video chat :(');
 				return;
@@ -62,11 +66,15 @@
 				});
 			};
 
-			const callDoc = doc(collection(firebase, 'calls'));
+			const callDoc = doc(collection(firestore, 'calls'));
 			const offerCandidates = collection(callDoc, 'offerCandidates');
 			const answerCandidates = collection(callDoc, 'answerCandidates');
 
 			console.log(callDoc.id);
+			callId = callDoc.id;
+			if (callIdInput) {
+				callIdInput.value = callDoc.id;
+			}
 
 			$pcStore.onicecandidate = (event) => {
 				event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
@@ -75,6 +83,7 @@
 			const offerDescription = await $pcStore.createOffer();
 			await $pcStore.setLocalDescription(offerDescription);
 
+			console.log('adasd');
 			const offer = {
 				sdp: offerDescription.sdp,
 				type: offerDescription.type
@@ -106,9 +115,32 @@
 			console.error(err);
 		}
 	}
+
+	async function onCallAnswer() {
+		try {
+			const callDoc = doc(collection(firestore, 'calls'), callId);
+			const offerCandidates = collection(callDoc, 'offerCandidates');
+			const answerCandidates = collection(callDoc, 'answerCandidates');
+
+			$pcStore.onicecandidate = (event) => {
+				event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
+			};
+
+			const callData = (await getDoc(callDoc)).data();
+
+			const offerDescription = callData?.offer;
+			await $pcStore.setRemoteDescription(new RTCSessionDescription(offerDescription));
+
+			const answerDescription = await $pcStore.createAnswer();
+			await $pcStore.setLocalDescription(answerDescription);
+		} catch (err) {
+			console.error(err);
+		}
+	}
 </script>
 
 <div class="video-chat">
+	<input bind:value={callId} bind:this={callIdInput} />
 	<JoinRoom onJoin={onCallJoin} />
 	<Video videoSource={localStream} />
 	<Video videoSource={remoteStream} />

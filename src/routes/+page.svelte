@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { PageServerData } from './$types';
 	import VideoCall from '../components/VideCall.svelte';
 </script>
 
