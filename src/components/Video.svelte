@@ -5,6 +5,8 @@
 
 	let video: HTMLVideoElement;
 
+	$: if (video && videoSource) video.srcObject = videoSource;
+
 	onMount(() => {
 		video.srcObject = videoSource;
 	});
@@ -15,9 +17,10 @@
 	bind:this={video}
 	autoplay
 	playsinline
-	poster="../../videoCover.png"
 	contextmenu="return false;"
 	class="w-[350px] h-[200px] object-cover pointer-events-none"
 >
 	<track kind="captions" />
 </video>
+
+<!-- poster="../../videoCover.png" -->

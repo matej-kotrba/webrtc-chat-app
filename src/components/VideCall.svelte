@@ -45,34 +45,38 @@
 	let localStream: MediaStream | null = null;
 	let remoteStream: MediaStream | null = null;
 
+	async function setupAudioAndVideo() {
+		if (!availableDevices.audio) {
+			console.log('You need microphone to enter video chat :(');
+			return;
+		}
+
+		localStream = await navigator.mediaDevices.getUserMedia({
+			audio: availableDevices.audio,
+			video: availableDevices.video
+		});
+
+		remoteStream = new MediaStream();
+
+		// console.log(localStream);
+
+		localStream.getTracks().forEach((track) => {
+			// console.log(track);
+			$pcStore.addTrack(track);
+		});
+
+		$pcStore.ontrack = (event) => {
+			// console.log(event);
+			if (event.streams[0] === undefined) return;
+			event.streams[0].getTracks().forEach((track) => {
+				remoteStream?.addTrack(track);
+			});
+		};
+	}
+
 	async function onCallJoin() {
 		try {
 			if (!firestore) return;
-			if (!availableDevices.audio) {
-				console.log('You need microphone to enter video chat :(');
-				return;
-			}
-
-			localStream = await navigator.mediaDevices.getUserMedia({
-				audio: availableDevices.audio,
-				video: availableDevices.video
-			});
-
-			remoteStream = new MediaStream();
-
-			// console.log(localStream);
-
-			localStream.getTracks().forEach((track) => {
-				// console.log(track);
-				$pcStore.addTrack(track);
-			});
-
-			$pcStore.ontrack = (event) => {
-				// console.log(event);
-				event.streams[0].getTracks().forEach((track) => {
-					remoteStream?.addTrack(track);
-				});
-			};
 
 			const callDoc = doc(collection(firestore, 'calls'));
 			const offerCandidates = collection(callDoc, 'offerCandidates');
@@ -163,6 +167,7 @@
 </script>
 
 <div class="video-chat">
+	<button on:click={setupAudioAndVideo} class="bg-green-500 p-3">Setup</button>
 	<input bind:value={callId} bind:this={callIdInput} class="text-black" />
 	<button on:click={onCallAnswer} class="p-4 bg-red-600">Answer</button>
 	<JoinRoom onJoin={onCallJoin} />
