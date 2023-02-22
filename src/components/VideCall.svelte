@@ -61,12 +61,10 @@
 		// console.log(localStream);
 
 		localStream.getTracks().forEach((track) => {
-			// console.log(track);
-			$pcStore.addTrack(track);
+			$pcStore.addTrack(track, localStream as MediaStream);
 		});
 
 		$pcStore.ontrack = (event) => {
-			// console.log(event);
 			if (event.streams[0] === undefined) return;
 			event.streams[0].getTracks().forEach((track) => {
 				remoteStream?.addTrack(track);
@@ -164,6 +162,8 @@
 			console.error(err);
 		}
 	}
+
+	$: console.log(localStream, remoteStream);
 </script>
 
 <div class="video-chat">

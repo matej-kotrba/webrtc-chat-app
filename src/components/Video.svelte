@@ -3,13 +3,22 @@
 
 	export let videoSource: MediaStream | null = null;
 	export let videoAttributes: {
-		muted?: boolean;
 		controls?: boolean;
+		src?: string;
+		width?: number;
+		height?: number;
+		autoplay?: boolean;
+		loop?: boolean;
+		muted?: boolean;
+		poster?: string;
 	} = {};
 
 	let video: HTMLVideoElement;
 
-	$: if (video && videoSource) video.srcObject = videoSource;
+	$: if (video && videoSource) {
+		console.log('this happened');
+		video.srcObject = videoSource;
+	}
 
 	onMount(() => {
 		video.srcObject = videoSource;
@@ -23,6 +32,7 @@
 	playsinline
 	contextmenu="return false;"
 	class="w-[350px] h-[200px] object-cover pointer-events-none"
+	muted
 	{...videoAttributes}
 >
 	<track kind="captions" />
