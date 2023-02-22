@@ -171,7 +171,7 @@
 	<input bind:value={callId} bind:this={callIdInput} class="text-black" />
 	<button on:click={onCallAnswer} class="p-4 bg-red-600">Answer</button>
 	<JoinRoom onJoin={onCallJoin} />
-	<Video videoSource={localStream} />
+	<Video videoSource={localStream} videoAttributes={{ muted: true }} />
 	<Video videoSource={remoteStream} />
 	<CallControls {devicesState} />
 </div>
