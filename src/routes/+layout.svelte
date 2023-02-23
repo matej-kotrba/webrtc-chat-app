@@ -3,8 +3,8 @@
 	import 'iconify-icon';
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import Navbar from '../components/Navbar.svelte';
 
 	const servers = {
 		iceServers: [
@@ -23,6 +23,7 @@
 	}
 </script>
 
-<main class="container mx-auto">
+<Navbar />
+<main class="container mx-auto p-3">
 	<slot />
 </main>
