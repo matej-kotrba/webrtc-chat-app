@@ -11,6 +11,6 @@
 	}
 </script>
 
-<button on:click={signInWithGoogle} class="p-2 bg-gray-700 text-md rounded-md"
-	>Sign in with Google</button
->
+<button on:click={signInWithGoogle} class="p-2 bg-gray-700 text-md rounded-md hover:bg-slate-500">
+	Sign in with Google
+</button>
