@@ -31,8 +31,11 @@
 </script>
 
 {#if $user === null}
-	<button on:click={signInWithGoogle} class="p-2 bg-gray-700 rounded-md text-md hover:bg-slate-500">
-		Sign in with Google
+	<button
+		on:click={signInWithGoogle}
+		class="p-2 bg-gray-700 rounded-md aspect-square text-md hover:bg-slate-500"
+	>
+		<iconify-icon icon="logos:google-icon" class="text-4xl" />
 	</button>
 {:else}
 	<div
@@ -50,13 +53,15 @@
 				class="absolute bg-gray-700 rounded-md p-2 top-[90%] right-0 w-52 flex flex-col
 			animate-dropDownAppear gap-1"
 			>
-				<div class="flex flex-wrap items-center gap-2">
+				<div class="flex items-center gap-2">
 					<img
 						src={$user.photoURL}
 						alt="User profile"
 						class="w-[40px] aspect-square rounded-full"
 					/>
-					<span>{$user.displayName}</span>
+					<span class="overflow-hidden text-ellipsis whitespace-nowrap"
+						><abbr title={$user.displayName} class="no-underline">{$user.displayName}</abbr></span
+					>
 				</div>
 				<button
 					on:click={logOutFunc}
