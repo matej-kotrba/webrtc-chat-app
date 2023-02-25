@@ -13,12 +13,17 @@
 		setDoc,
 		onSnapshot,
 		getDoc,
-		updateDoc
+		updateDoc,
+		query,
+		where,
+		DocumentReference,
+		type DocumentData,
+		getDocs
 	} from 'firebase/firestore';
 	import { firestore } from '../config/firebase';
 
 	let pcStore: Writable<RTCPeerConnection> = getContext('peerConnection');
-	let isInCall: Writable<boolean> = getContext('isInCall');
+	let isInCall: Writable<boolean> = getContext('isInCall'); // TODO: use this
 
 	let callIdInput: null | HTMLInputElement = null;
 	let callId = '';
@@ -58,8 +63,6 @@
 
 		remoteStream = new MediaStream();
 
-		// console.log(localStream);
-
 		localStream.getTracks().forEach((track) => {
 			$pcStore.addTrack(track, localStream as MediaStream);
 		});
@@ -76,13 +79,16 @@
 		try {
 			if (!firestore) return;
 
-			const callDoc = doc(collection(firestore, 'calls'));
+			const rooms = collection(firestore, 'rooms');
+			const q = query(rooms, where('title', '==', "test"));
+			const room = (await getDocs(q)).docs[0].ref;
+			const callDoc = doc(collection(room, 'calls'));
 			const offerCandidates = collection(callDoc, 'offerCandidates');
 			const answerCandidates = collection(callDoc, 'answerCandidates');
 
 			callId = callDoc.id;
 			if (callIdInput) {
-				callIdInput.value = callDoc.id;
+				callIdInput.value = callId;
 			}
 
 			$pcStore.onicecandidate = (event) => {
@@ -126,6 +132,7 @@
 
 	async function onCallAnswer() {
 		try {
+			console.log(`🚀 ~ file: VideCall.svelte:136 ~ onCallAnswer ~ callId:`, callId);
 			const callDoc = doc(collection(firestore, 'calls'), callId);
 			const offerCandidates = collection(callDoc, 'offerCandidates');
 			const answerCandidates = collection(callDoc, 'answerCandidates');
