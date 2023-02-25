@@ -167,7 +167,7 @@
 </script>
 
 <div class="video-chat">
-	<button on:click={setupAudioAndVideo} class="bg-green-500 p-3">Setup</button>
+	<button on:click={setupAudioAndVideo} class="p-3 bg-green-500">Setup</button>
 	<input bind:value={callId} bind:this={callIdInput} class="text-black" />
 	<button on:click={onCallAnswer} class="p-4 bg-red-600">Answer</button>
 	<JoinRoom onJoin={onCallJoin} />

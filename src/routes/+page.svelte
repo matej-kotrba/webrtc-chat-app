@@ -1,11 +1,9 @@
 <script lang="ts">
-	import type { PageServerData } from './$types';
 	import VideoCall from '../components/VideCall.svelte';
 	import { user } from '../stores/user';
 </script>
 
 {#if $user === null}
-	<h1 class="text-[1.5rem] md:text-[2.5rem] lg:text-[3rem]">Welcome to</h1>
 	<div class="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_4px_1fr]">
 		<div
 			class="webrtc flex flex-col text-[3rem] sm:text-[4rem] md:text-[4.5rem] lg:text-[6rem] text-center sm:text-right font-extrabold"
