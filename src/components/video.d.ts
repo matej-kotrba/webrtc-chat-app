@@ -1,4 +1,4 @@
 export type DevicesState = {
-  isCameraOn: boolean;
-  isMicOn: boolean;
+	isCameraOn: boolean;
+	isMicOn: boolean;
 };

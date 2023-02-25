@@ -163,6 +163,11 @@
 		}
 	}
 
+	// async function hangUp() {
+	// 	$pcStore.close();
+
+	// }
+
 	$: console.log(localStream, remoteStream);
 </script>
 
