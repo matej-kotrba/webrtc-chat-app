@@ -48,8 +48,16 @@
 		{#if isDropDownOpen}
 			<div
 				class="absolute bg-gray-700 rounded-md p-2 top-[90%] right-0 w-52 flex flex-col
-			animate-dropDownAppear"
+			animate-dropDownAppear gap-1"
 			>
+				<div class="flex flex-wrap items-center gap-2">
+					<img
+						src={$user.photoURL}
+						alt="User profile"
+						class="w-[40px] aspect-square rounded-full"
+					/>
+					<span>{$user.displayName}</span>
+				</div>
 				<button
 					on:click={logOutFunc}
 					class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500"
