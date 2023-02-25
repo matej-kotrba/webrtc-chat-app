@@ -151,7 +151,7 @@
 
 			onSnapshot(offerCandidates, (snapshot) => {
 				snapshot.docChanges().forEach((change) => {
-					console.log(change);
+					// console.log(change);
 					if (change.type === 'added') {
 						let data = change.doc.data();
 						$pcStore.addIceCandidate(new RTCIceCandidate(data));
