@@ -132,8 +132,10 @@
 
 	async function onCallAnswer() {
 		try {
-			console.log(`🚀 ~ file: VideCall.svelte:136 ~ onCallAnswer ~ callId:`, callId);
-			const callDoc = doc(collection(firestore, 'calls'), callId);
+			const rooms = collection(firestore, 'rooms');
+			const q = query(rooms, where('title', '==', "test"));
+			const room = (await getDocs(q)).docs[0].ref;
+			const callDoc = doc(collection(room, 'calls'), callId);
 			const offerCandidates = collection(callDoc, 'offerCandidates');
 			const answerCandidates = collection(callDoc, 'answerCandidates');
 
@@ -158,7 +160,7 @@
 
 			onSnapshot(offerCandidates, (snapshot) => {
 				snapshot.docChanges().forEach((change) => {
-					// console.log(change);
+
 					if (change.type === 'added') {
 						let data = change.doc.data();
 						$pcStore.addIceCandidate(new RTCIceCandidate(data));

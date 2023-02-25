@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import VideCall from '../components/VideCall.svelte';
 	import VideoCall from '../components/VideCall.svelte';
 	import { user } from '../stores/user';
 </script>
@@ -27,7 +28,8 @@
 		Start chatting today, all you need is a Google account!
 	</div>
 {:else}
-	<form
+<VideCall/>
+	<!-- <form
 		action="/?redirectToRoom"
 		method="POST"
 		use:enhance
@@ -41,7 +43,7 @@
 			type="text"
 			class="color-white flex border-collapse rounded-lg bg-indigo-900 p-2 focus:bg-indigo-500 focus:outline-none"
 		/>
-	</form>
+	</form> -->
 {/if}
 
 <style>
