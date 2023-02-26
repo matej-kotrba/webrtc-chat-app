@@ -24,6 +24,7 @@
 </script>
 
 <Navbar />
-<main class="container mx-auto p-3">
+<div class="h-10 separator"></div>
+<main class="container min-h-screen p-3 mx-auto">
 	<slot />
 </main>

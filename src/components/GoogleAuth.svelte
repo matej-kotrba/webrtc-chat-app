@@ -35,7 +35,7 @@
 		on:click={signInWithGoogle}
 		class="p-2 bg-gray-700 rounded-md aspect-square text-md hover:bg-slate-500"
 	>
-		<iconify-icon icon="logos:google-icon" class="text-4xl" />
+		<iconify-icon icon="logos:google-icon" class="text-3xl"></iconify-icon>
 	</button>
 {:else}
 	<div
