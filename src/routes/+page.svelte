@@ -28,9 +28,8 @@
 		Start chatting today, all you need is a Google account!
 	</div>
 {:else}
-<VideCall/>
-	<!-- <form
-		action="/?redirectToRoom"
+	<form
+		action="?/redirectToRoom"
 		method="POST"
 		use:enhance
 		class="flex flex-col items-center gap-2 rounded-lg bg-indigo-700 
@@ -43,7 +42,7 @@
 			type="text"
 			class="color-white flex border-collapse rounded-lg bg-indigo-900 p-2 focus:bg-indigo-500 focus:outline-none"
 		/>
-	</form> -->
+	</form>
 {/if}
 
 <style>
