@@ -5,6 +5,11 @@
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
 	import Navbar from '../components/Navbar.svelte';
+	import { loading } from '../lib/loading';
+	import { navigating } from '$app/stores';
+	import Loader from '../components/Loader.svelte';
+
+	$: $loading = !!$navigating;
 
 	const servers = {
 		iceServers: [
@@ -24,7 +29,8 @@
 </script>
 
 <Navbar />
-<div class="h-10 separator"></div>
+<Loader />
+<div class="h-10 separator" />
 <main class="container min-h-screen p-3 mx-auto">
 	<slot />
 </main>

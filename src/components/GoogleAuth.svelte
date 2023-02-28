@@ -35,7 +35,7 @@
 		on:click={signInWithGoogle}
 		class="p-2 bg-gray-700 rounded-md aspect-square text-md hover:bg-slate-500"
 	>
-		<iconify-icon icon="logos:google-icon" class="text-3xl"></iconify-icon>
+		<iconify-icon icon="logos:google-icon" class="text-3xl" />
 	</button>
 {:else}
 	<div
@@ -60,7 +60,9 @@
 						class="w-[40px] aspect-square rounded-full"
 					/>
 					<span class="overflow-hidden text-ellipsis whitespace-nowrap"
-						><abbr title={$user.displayName} class="no-underline">{$user.displayName}</abbr></span
+						><abbr title={$user.displayName} class="no-underline"
+							>{$user.displayName}</abbr
+						></span
 					>
 				</div>
 				<button

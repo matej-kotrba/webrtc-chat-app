@@ -14,7 +14,6 @@ export const load: ServerLoad = async ({ params }) => {
   if (!doc) {
     error(404, "It seems that room doesn't exist 😕")
   }
-
   return {
     roomName: params.roomName as string,
     roomId: doc.id as string

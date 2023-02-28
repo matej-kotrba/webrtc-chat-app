@@ -1,7 +1,9 @@
 <script lang="ts">
 	import Tooltip from '../../../components/Tooltip.svelte';
+	import CopyToClipboard from '../../../components/CopyToClipboard.svelte';
 
 	import type { PageData } from './$types';
+	import { browser } from '$app/environment';
 
 	export let data: PageData;
 </script>
@@ -11,10 +13,9 @@
 		class="text-4xl font-extrabold"
 		>{data.roomName}
 	</span>
-	<Tooltip text="Copy to clipboard !">
-		<iconify-icon
-			icon="mdi:clipboard-text"
-			class="text-3xl aspect-square opacity-0 group-hover:opacity-100 duration-150"
-		/>
-	</Tooltip>
+	{#if browser}
+		<Tooltip text="Copy to clipboard !">
+			<CopyToClipboard textToCopy={window.location.href} />
+		</Tooltip>
+	{/if}
 </h2>
