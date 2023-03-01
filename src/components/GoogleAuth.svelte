@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { signInWithPopup } from 'firebase/auth';
 	import { auth, googleAuthProvider } from '../config/firebase';
-	import { signOut, onAuthStateChanged } from 'firebase/auth';
+	import { signOut } from 'firebase/auth';
 	import { user } from '../stores/user';
-	import { onMount } from 'svelte';
 
 	let isDropDownOpen = false;
 
@@ -22,12 +21,6 @@
 			console.log(err);
 		}
 	}
-
-	onMount(async () => {
-		onAuthStateChanged(auth, (newUser) => {
-			$user = newUser;
-		});
-	});
 </script>
 
 {#if $user === null}

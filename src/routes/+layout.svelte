@@ -8,6 +8,10 @@
 	import { loading } from '../lib/loading';
 	import { navigating } from '$app/stores';
 	import Loader from '../components/Loader.svelte';
+	import { user } from '../stores/user';
+	import { onMount } from 'svelte';
+	import { onAuthStateChanged } from 'firebase/auth';
+	import { auth } from '../config/firebase';
 
 	$: $loading = !!$navigating;
 
@@ -26,6 +30,19 @@
 		setContext('peerConnection', writable(new RTCPeerConnection(servers)));
 		setContext('isInCall', writable(false));
 	}
+
+	onMount(async () => {
+		onAuthStateChanged(auth, (newUser) => {
+			$user = newUser;
+			fetch('/api/userLoginState', {
+				method: 'POST',
+				body: JSON.stringify({ id: newUser?.uid }),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+		});
+	});
 </script>
 
 <Navbar />
