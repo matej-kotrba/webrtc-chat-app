@@ -3,6 +3,7 @@
 	import { auth, googleAuthProvider } from '../config/firebase';
 	import { signOut } from 'firebase/auth';
 	import { user } from '../stores/user';
+	import { fly } from 'svelte/transition';
 
 	let isDropDownOpen = false;
 
@@ -32,6 +33,24 @@
 			<iconify-icon icon="logos:google-icon" class="text-3xl" />
 		</button>
 	{:else}
+		<div class="relative">
+			<button
+				class="p-2 bg-gray-700 text-md hover:bg-slate-500 items-center w-full flex gap-2 justify-center z-10 relative"
+				on:click={() => (isDropDownOpen = !isDropDownOpen)}
+			>
+				<iconify-icon icon="mdi:user" class="text-3xl" />
+			</button>
+			{#if isDropDownOpen}
+				<div
+					transition:fly={{ x: -100, duration: 500 }}
+					class="absolute left-[100%] bottom-0 p-2 pb-14 bg-slate-900 whitespace-nowrap flex flex-col gap-3 rounded-tr-lg -z-50"
+				>
+					<button class="text-lg flex items-center gap-1 px-4"
+						>Log out <iconify-icon icon="ic:baseline-log-out" /></button
+					>
+				</div>
+			{/if}
+		</div>
 		<!-- <div
 			class="relative z-10 flex items-center bg-gray-700 rounded-md text-md"
 			on:mouseleave={() => (isDropDownOpen = false)}
