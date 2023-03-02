@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 import { collection, getDocs, query, where } from "firebase/firestore"
 import { firestore } from "../../config/firebase"
 
-const redirectToRoom: Action = async ({ request, cookies }) => {
+const redirectToRoom: Action = async ({ request }) => {
   console.log(Date.now())
   const room = (await request.formData()).get('roomName');
 

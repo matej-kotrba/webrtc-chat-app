@@ -80,7 +80,7 @@
 			if (!firestore) return;
 
 			const rooms = collection(firestore, 'rooms');
-			const q = query(rooms, where('title', '==', "test"));
+			const q = query(rooms, where('title', '==', 'test'));
 			const room = (await getDocs(q)).docs[0].ref;
 			const callDoc = doc(collection(room, 'calls'));
 			const offerCandidates = collection(callDoc, 'offerCandidates');
@@ -133,7 +133,7 @@
 	async function onCallAnswer() {
 		try {
 			const rooms = collection(firestore, 'rooms');
-			const q = query(rooms, where('title', '==', "test"));
+			const q = query(rooms, where('title', '==', 'test'));
 			const room = (await getDocs(q)).docs[0].ref;
 			const callDoc = doc(collection(room, 'calls'), callId);
 			const offerCandidates = collection(callDoc, 'offerCandidates');
@@ -146,7 +146,9 @@
 			const callData = (await getDoc(callDoc)).data();
 
 			const offerDescription = callData?.offer;
-			await $pcStore.setRemoteDescription(new RTCSessionDescription(offerDescription));
+			await $pcStore.setRemoteDescription(
+				new RTCSessionDescription(offerDescription)
+			);
 
 			const answerDescription = await $pcStore.createAnswer();
 			await $pcStore.setLocalDescription(answerDescription);
@@ -160,7 +162,6 @@
 
 			onSnapshot(offerCandidates, (snapshot) => {
 				snapshot.docChanges().forEach((change) => {
-
 					if (change.type === 'added') {
 						let data = change.doc.data();
 						$pcStore.addIceCandidate(new RTCIceCandidate(data));

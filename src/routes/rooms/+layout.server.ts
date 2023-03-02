@@ -3,7 +3,6 @@ import type { PageServerLoad } from "./$types"
 
 export const load: PageServerLoad = async ({ cookies }) => {
   if (!cookies.get("userId")) {
-    console.log("adasdads")
     throw redirect(302, "/");
   }
 }

@@ -1,10 +1,16 @@
+<script lang="ts">
+	import { user } from '../stores/user';
+
+	let webrtcTitle = ['WebRTC', 'Chat', 'App'];
+</script>
+
 <div class="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_4px_1fr] isolate">
 	<div
 		class="webrtc flex flex-col text-center leading-[1] text-[3rem] font-extrabold sm:text-right sm:text-[4rem] md:text-[4.5rem] lg:text-[6rem]"
 	>
-		<span>WebRTC</span>
-		<span>Chat</span>
-		<span>App</span>
+		{#each webrtcTitle as title, i}
+			<span>{title}</span>
+		{/each}
 	</div>
 	<div class="bg-white rounded-lg separator" />
 	<div
@@ -25,7 +31,18 @@
 <div
 	class="p-6 text-md md:text-xl xl:text-2xl bg-indigo-600 rounded-md w-[100%] sm:w-[90%] md:w-[80%] lg:w-[65%] xl:w-[50%] mx-auto"
 >
-	Start chatting today, all you need is a Google account!
+	{#if $user}
+		<span
+			>Welcome back, {$user.displayName}!
+			<img
+				src={$user.photoURL}
+				alt="User icon"
+				class="inline-block w-[50px] aspect-square rounded-full"
+			/></span
+		>
+	{:else}
+		Start chatting today, all you need is a Google account!
+	{/if}
 </div>
 
 <style>

@@ -6,7 +6,8 @@ module.exports = {
 			animation: {
 				dropDownAppear: 'dropDownAppear 0.3s ease',
 				hueRotation: 'hueRotation 16s ease-in-out infinite',
-				transformRight: 'rightTransform 8s linear infinite'
+				transformRight: 'rightTransform 8s linear infinite',
+				appearFromTop: 'appearFromTop 0.8s ease-in-out'
 			},
 			keyframes: {
 				dropDownAppear: {
@@ -20,6 +21,10 @@ module.exports = {
 				rightTransform: {
 					'0%': { transform: 'translateX(0)' },
 					'100%': { transform: 'translateX(100%)' }
+				},
+				appearFromTop: {
+					'0%': { opacity: 0, transform: 'translateY(-20%)' },
+					'100%': { opacity: 1, transform: 'translateY(0)' }
 				}
 			}
 		}
