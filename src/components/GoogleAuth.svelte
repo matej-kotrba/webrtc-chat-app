@@ -23,60 +23,62 @@
 	}
 </script>
 
-{#if $user === null}
-	<button
-		on:click={signInWithGoogle}
-		class="p-2 bg-gray-700 rounded-md aspect-square text-md hover:bg-slate-500"
-	>
-		<iconify-icon icon="logos:google-icon" class="text-3xl" />
-	</button>
-{:else}
-	<div
-		class="relative z-10 flex items-center bg-gray-700 rounded-md text-md"
-		on:mouseleave={() => (isDropDownOpen = false)}
-	>
+<div class="absolute bottom-0 left-0 w-full">
+	{#if $user === null}
 		<button
-			on:click={() => (isDropDownOpen = !isDropDownOpen)}
-			class="z-10 p-2 rounded-md aspect-square hover:bg-slate-500"
+			on:click={signInWithGoogle}
+			class="p-2 bg-gray-700 text-md hover:bg-slate-500 items-center w-full flex gap-2 justify-center"
 		>
-			<iconify-icon icon="mdi:user" class="text-3xl" />
+			<iconify-icon icon="logos:google-icon" class="text-3xl" />
 		</button>
-		{#if isDropDownOpen}
-			<div
-				class="absolute bg-gray-700 rounded-md p-2 top-[90%] right-0 w-52 flex flex-col
-			animate-dropDownAppear gap-1"
+	{:else}
+		<!-- <div
+			class="relative z-10 flex items-center bg-gray-700 rounded-md text-md"
+			on:mouseleave={() => (isDropDownOpen = false)}
+		>
+			<button
+				on:click={() => (isDropDownOpen = !isDropDownOpen)}
+				class="z-10 p-2 rounded-md aspect-square hover:bg-slate-500"
 			>
-				<div class="flex items-center gap-2">
-					<img
-						src={$user.photoURL}
-						alt="User profile"
-						class="w-[40px] aspect-square rounded-full"
-					/>
-					<span class="overflow-hidden text-ellipsis whitespace-nowrap"
-						><abbr title={$user.displayName} class="no-underline"
-							>{$user.displayName}</abbr
-						></span
-					>
-				</div>
-				<button
-					on:click={logOutFunc}
-					class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500"
+				<iconify-icon icon="mdi:user" class="text-3xl" />
+			</button>
+			{#if isDropDownOpen}
+				<div
+					class="absolute bg-gray-700 rounded-md p-2 top-[90%] right-0 w-52 flex flex-col
+			animate-dropDownAppear gap-1"
 				>
-					Log out
-				</button>
-				<div class="flex items-center gap-2 justify-left">
+					<div class="flex items-center gap-2">
+						<img
+							src={$user.photoURL}
+							alt="User profile"
+							class="w-[40px] aspect-square rounded-full"
+						/>
+						<span class="overflow-hidden text-ellipsis whitespace-nowrap"
+							><abbr title={$user.displayName} class="no-underline"
+								>{$user.displayName}</abbr
+							></span
+						>
+					</div>
 					<button
-						class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500 aspect-square"
+						on:click={logOutFunc}
+						class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500"
 					>
-						<iconify-icon icon="fa6-solid:gear" />
+						Log out
 					</button>
-					<button
-						class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500 aspect-square"
-					>
-						<iconify-icon icon="ic:baseline-color-lens" />
-					</button>
+					<div class="flex items-center gap-2 justify-left">
+						<button
+							class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500 aspect-square"
+						>
+							<iconify-icon icon="fa6-solid:gear" />
+						</button>
+						<button
+							class="p-2 text-left bg-gray-700 rounded-md text-md hover:bg-slate-500 aspect-square"
+						>
+							<iconify-icon icon="ic:baseline-color-lens" />
+						</button>
+					</div>
 				</div>
-			</div>
-		{/if}
-	</div>
-{/if}
+			{/if}
+		</div> -->
+	{/if}
+</div>

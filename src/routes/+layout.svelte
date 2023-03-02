@@ -4,7 +4,7 @@
 	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { browser } from '$app/environment';
-	import Navbar from '../components/Navbar.svelte';
+	import Sidebar from '../components/Sidebar.svelte';
 	import { loading } from '../lib/loading';
 	import { navigating } from '$app/stores';
 	import Loader from '../components/Loader.svelte';
@@ -45,9 +45,18 @@
 	});
 </script>
 
-<Navbar />
 <Loader />
-<div class="h-10 separator" />
-<main class="container min-h-screen p-3 mx-auto">
-	<slot />
-</main>
+<div class="layout">
+	<Sidebar />
+	<main class="container min-h-screen p-3 mx-auto">
+		<div class="h-10 separator" />
+		<slot />
+	</main>
+</div>
+
+<style>
+	.layout {
+		display: grid;
+		grid-template-columns: 180px 1fr;
+	}
+</style>
