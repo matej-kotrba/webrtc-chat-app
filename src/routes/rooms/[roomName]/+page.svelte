@@ -4,6 +4,7 @@
 
 	import type { PageData } from './$types';
 	import { browser } from '$app/environment';
+	import VideoCall from '../../../components/VideoCall.svelte';
 
 	export let data: PageData;
 </script>
@@ -19,3 +20,5 @@
 		</Tooltip>
 	{/if}
 </h2>
+
+<VideoCall roomName={data.roomName} />

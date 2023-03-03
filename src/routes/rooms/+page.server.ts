@@ -4,15 +4,12 @@ import { collection, getDocs, query, where } from "firebase/firestore"
 import { firestore } from "../../config/firebase"
 
 const redirectToRoom: Action = async ({ request }) => {
-  console.log(Date.now())
   const room = (await request.formData()).get('roomName');
 
   const rooms = collection(firestore, "rooms")
   const q = query(rooms, where("title", "==", room))
 
   const doc = (await getDocs(q)).docs[0]
-
-  console.log(Date.now())
 
   if (!doc) {
     return {

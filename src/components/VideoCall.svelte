@@ -38,6 +38,8 @@
 		video: false
 	};
 
+	export let roomName: string;
+
 	onMount(() => {
 		navigator.mediaDevices.enumerateDevices().then((devices) => {
 			devices.forEach((device) => {
@@ -80,7 +82,7 @@
 			if (!firestore) return;
 
 			const rooms = collection(firestore, 'rooms');
-			const q = query(rooms, where('title', '==', 'test'));
+			const q = query(rooms, where('title', '==', roomName));
 			const room = (await getDocs(q)).docs[0].ref;
 			const callDoc = doc(collection(room, 'calls'));
 			const offerCandidates = collection(callDoc, 'offerCandidates');
@@ -133,7 +135,7 @@
 	async function onCallAnswer() {
 		try {
 			const rooms = collection(firestore, 'rooms');
-			const q = query(rooms, where('title', '==', 'test'));
+			const q = query(rooms, where('title', '==', roomName));
 			const room = (await getDocs(q)).docs[0].ref;
 			const callDoc = doc(collection(room, 'calls'), callId);
 			const offerCandidates = collection(callDoc, 'offerCandidates');

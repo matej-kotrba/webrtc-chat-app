@@ -7,7 +7,7 @@
 </script>
 
 <nav
-	class="bg-slate-900 relative left-0 top-0 h-full flex flex-col {customStyles}"
+	class="bg-slate-900 relative left-0 top-0 h-full flex flex-col {customStyles} overflow-hidden"
 >
 	<div class="flex flex-col gap-2 text-xl py-3 px-3">
 		<a href="/" class="py-2 pl-5 pr-20 text-left hover:bg-slate-800 rounded-md"

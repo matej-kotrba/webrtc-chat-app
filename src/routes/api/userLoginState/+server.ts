@@ -15,6 +15,5 @@ export const POST: RequestHandler = (async ({ cookies, request }) => {
     httpOnly: true,
     sameSite: "strict",
   })
-  console.log(cookies.get("userId"))
   return new Response("Logged in", { status: 200 })
 })

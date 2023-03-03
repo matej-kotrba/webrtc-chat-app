@@ -42,12 +42,26 @@
 			</button>
 			{#if isDropDownOpen}
 				<div
-					transition:fly={{ x: -100, duration: 500 }}
-					class="absolute left-[100%] bottom-0 p-2 pb-14 bg-slate-900 whitespace-nowrap flex flex-col gap-3 rounded-tr-lg -z-50"
+					transition:fly|local={{ y: 100, duration: 500 }}
+					class="absolute left-0 bottom-[100%] p-2 bg-slate-900 flex flex-col gap-3 rounded-tr-lg w-full"
 				>
-					<button class="text-lg flex items-center gap-1 px-4"
+					<button
+						class="text-lg flex items-center gap-1 px-4 justify-center"
+						on:click={logOutFunc}
 						>Log out <iconify-icon icon="ic:baseline-log-out" /></button
 					>
+					<div
+						class="text-lg flex items-center gap-1 px-4 py-3 isolate justify-center"
+					>
+						{$user.displayName}
+						<img
+							src={$user.photoURL}
+							alt="User profile"
+							class="text-transparent absolute -z-10 left-[50%] translate-x-[-50%] rounded-full brightness-50"
+							width="50"
+							height="50"
+						/>
+					</div>
 				</div>
 			{/if}
 		</div>
