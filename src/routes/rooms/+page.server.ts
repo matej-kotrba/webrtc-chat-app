@@ -9,18 +9,23 @@ const redirectToRoom: Action = async ({ request }) => {
   const room = (await request.formData()).get('roomName');
 
   const rooms = collection(firestore, "rooms")
-  const q = query(rooms, where("title", "==", room))
+  const q = query(rooms, where("title", ">=", room), where("title", "<=", room + "\uf8ff"))
 
-  const doc = (await getDocs(q)).docs[0]
+  const docs = (await getDocs(q)).docs
 
-  if (!doc) {
+  if (docs.length === 0) {
     return {
-      error: "Room not found",
+      error: "No rooms found",
     }
   }
 
-
-  throw redirect(302, `/rooms/${room}`);
+  return {
+    status: 200,
+    body: {
+      rooms: docs.map((doc) => doc.data())
+    }
+  }
+  // throw redirect(302, `/rooms/${room}`);
 };
 
 export const actions: Actions = {

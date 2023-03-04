@@ -5,7 +5,7 @@
 	export let form: ActionData & { error: string | undefined };
 </script>
 
-<div class="perspective-container isolate">
+<div class="perspective-container isolate mb-24">
 	<form
 		action="?/redirectToRoom"
 		method="POST"
@@ -47,6 +47,28 @@
 			{form ? form.error || '' : 'Placeholder'}
 		</p>
 	</form>
+</div>
+<!-- {#if form?.body.rooms}
+	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+		{#each form?.body.rooms as { title }}
+		<a href="/rooms/{title}">{title}</a>
+		{/each}
+	</div>
+	{/if} -->
+<p class="text-center my-2 text-xl">
+	Found: <span class="font-extrabold text-blue-400"
+		>{form?.room?.length || 0}</span
+	> result(s)
+</p>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2 mx-2 xl:mx-24">
+	{#each Array(10) as _}
+		<a
+			href="/rooms/roomName"
+			class="bg-transparent border-4 border-solid border-indigo-500 p-2 rounded-md shadow-xl shadow-[#4338ca4f]"
+		>
+			<span class="font-extrabold">Room name:</span> Tady je text
+		</a>
+	{/each}
 </div>
 
 <style>
