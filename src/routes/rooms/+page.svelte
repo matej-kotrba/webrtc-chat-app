@@ -44,32 +44,34 @@
 				? 'opacity-100 duration-150'
 				: 'opacity-0'}"
 		>
-			{form ? form.error || '' : 'Placeholder'}
+			{form ? form.error || 'Placeholder' : 'Placeholder'}
 		</p>
 	</form>
 </div>
-<!-- {#if form?.body.rooms}
-	<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+{#if form?.body.rooms}
+	<p class="text-center my-2 text-xl">
+		Found: <span class="font-extrabold text-blue-400"
+			>{form?.body.rooms.length || 0}</span
+		> result(s)
+	</p>
+	<div
+		class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mx-2 xl:mx-24"
+	>
 		{#each form?.body.rooms as { title }}
-		<a href="/rooms/{title}">{title}</a>
+			<a
+				href="/rooms/{title}"
+				class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate
+				p-2 rounded-md shadow-xl shadow-[#4338ca4f] group flex items-center justify-between"
+			>
+				<p>Room name: <span class="font-extrabold">{title}</span></p>
+				<iconify-icon
+					icon="system-uicons:enter"
+					class="opacity-0 group-hover:opacity-100 duration-150 text-2xl"
+				/>
+			</a>
 		{/each}
 	</div>
-	{/if} -->
-<p class="text-center my-2 text-xl">
-	Found: <span class="font-extrabold text-blue-400"
-		>{form?.room?.length || 0}</span
-	> result(s)
-</p>
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2 mx-2 xl:mx-24">
-	{#each Array(10) as _}
-		<a
-			href="/rooms/roomName"
-			class="bg-transparent border-4 border-solid border-indigo-500 p-2 rounded-md shadow-xl shadow-[#4338ca4f]"
-		>
-			<span class="font-extrabold">Room name:</span> Tady je text
-		</a>
-	{/each}
-</div>
+{/if}
 
 <style>
 	.perspective-container > form {
@@ -79,5 +81,19 @@
 	.perspective-container div {
 		transform-style: preserve-3d;
 		transform: rotateX(4deg) rotateY(2deg);
+	}
+
+	.link-to-room:hover::before {
+		opacity: 1;
+	}
+
+	.link-to-room::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		z-index: -99;
+		background-image: radial-gradient(circle at right, #4338ca, #4338ca00 60%);
+		transition: 0.2s ease-in-out;
 	}
 </style>
