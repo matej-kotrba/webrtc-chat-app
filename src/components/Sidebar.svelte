@@ -22,6 +22,11 @@
 			>
 			<div class="separator h-[1px] bg-slate-700" />
 		{/if}
+		<a
+			href="/about"
+			transition:fade
+			class="py-2 pl-5 pr-20 text-left hover:bg-slate-800 rounded-md">About</a
+		>
 	</div>
 	<!-- <div class="h-[100px] mb-auto" /> -->
 	<GoogleAuth />

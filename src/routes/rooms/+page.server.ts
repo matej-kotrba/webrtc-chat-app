@@ -1,5 +1,4 @@
 import type { Action, Actions } from '@sveltejs/kit';
-import { redirect } from '@sveltejs/kit';
 import { firestore } from "../../config/firebase"
 import { collection, where, query, getDocs } from 'firebase/firestore';
 
