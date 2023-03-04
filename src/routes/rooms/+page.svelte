@@ -3,6 +3,14 @@
 	import type { ActionData } from './$types';
 
 	export let form: ActionData & { error: string | undefined };
+
+	let isLoading = false;
+
+	function onSearch() {
+		isLoading = true;
+	}
+
+	$: (isLoading = false), form;
 </script>
 
 <div class="perspective-container isolate mb-24">
@@ -10,6 +18,7 @@
 		action="?/redirectToRoom"
 		method="POST"
 		use:enhance
+		on:submit={onSearch}
 		class="relative flex flex-col items-center max-w-2xl gap-2 p-8 py-12 mx-auto"
 	>
 		<div
@@ -48,6 +57,16 @@
 		</p>
 	</form>
 </div>
+
+{#if isLoading}
+	<div class="flex justify-center">
+		<iconify-icon
+			icon="mdi:loading"
+			class="animate-spin text-[4rem] text-blue-400"
+		/>
+	</div>
+{/if}
+
 {#if form?.body.rooms}
 	<p class="text-center my-2 text-xl">
 		Found: <span class="font-extrabold text-blue-400"
