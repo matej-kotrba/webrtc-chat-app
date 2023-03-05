@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import Dialog from '../../components/Dialog.svelte';
 	import type { ActionData } from './$types';
 
 	export let form: ActionData & { error: string | undefined };
@@ -11,8 +12,27 @@
 	}
 
 	$: (isLoading = false), form;
+
+	let createRoomDialog: Dialog;
 </script>
 
+<Dialog bind:this={createRoomDialog}>
+	<form>
+		<p class="font-extrabold text-lg">
+			Create your new <span class="text-indigo-500">place</span> to
+			<span class="text-indigo-500">talk</span>!
+		</p>
+		<label for="roomName">Name of the room: </label>
+		<input name="roomName" type="text" class="rounded-sm bg-red-300" />
+		<button type="submit">Create</button>
+	</form>
+</Dialog>
+<div class="flex justify-end">
+	<button
+		class="bg-indigo-500 rounded-lg p-3"
+		on:click={() => createRoomDialog.open()}>Create you own room!</button
+	>
+</div>
 <div class="perspective-container isolate mb-24">
 	<form
 		action="?/redirectToRoom"
@@ -67,7 +87,7 @@
 	</div>
 {/if}
 
-{#if form?.body.rooms}
+{#if form?.body?.rooms}
 	<p class="text-center my-2 text-xl">
 		Found: <span class="font-extrabold text-blue-400"
 			>{form?.body.rooms.length || 0}</span
@@ -76,7 +96,7 @@
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mx-2 xl:mx-24"
 	>
-		{#each form?.body.rooms as { title }}
+		{#each form?.body?.rooms as { title }}
 			<a
 				href="/rooms/{title}"
 				class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate

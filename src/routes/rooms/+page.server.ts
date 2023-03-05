@@ -1,6 +1,6 @@
 import type { Action, Actions } from '@sveltejs/kit';
 import { firestore } from "../../config/firebase"
-import { collection, where, query, getDocs } from 'firebase/firestore';
+import { collection, addDoc, where, getDocs, query } from 'firebase/firestore';
 
 const redirectToRoom: Action = async ({ request }) => {
 
@@ -21,12 +21,23 @@ const redirectToRoom: Action = async ({ request }) => {
   return {
     status: 200,
     body: {
-      rooms: docs.map((doc) => doc.data())
+      rooms: docs.map((doc) => doc.data()) || []
     }
   }
   // throw redirect(302, `/rooms/${room}`);
 };
 
+const createRoom: Action = async ({ request }) => {
+  const formData = await request.formData()
+  const room = formData.get('roomName')
+
+  const rooms = collection(firestore, "rooms")
+  addDoc(rooms, {
+    title: room,
+  })
+}
+
 export const actions: Actions = {
-  redirectToRoom: redirectToRoom
+  redirectToRoom,
+  createRoom
 };

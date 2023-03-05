@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { draw } from 'svelte/transition';
+
 	export let textToCopy: string;
 	export let timeForChange: number = 1000;
 
