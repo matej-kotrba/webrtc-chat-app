@@ -17,15 +17,48 @@
 </script>
 
 <Dialog bind:this={createRoomDialog}>
-	<form>
-		<p class="font-extrabold text-lg">
-			Create your new <span class="text-indigo-500">place</span> to
-			<span class="text-indigo-500">talk</span>!
-		</p>
-		<label for="roomName">Name of the room: </label>
-		<input name="roomName" type="text" class="rounded-sm bg-red-300" />
-		<button type="submit">Create</button>
-	</form>
+	<svelte:fragment slot="header">
+		<h2 class="font-extrabold text-2xl flex items-center">
+			<iconify-icon icon="material-symbols:meeting-room-outline-rounded" />New
+			Room
+		</h2>
+	</svelte:fragment>
+	<svelte:fragment slot="main">
+		<form>
+			<div class="my-8">
+				<p class="font-extrabold text-lg text-center my-2">
+					Create your new <span class="text-indigo-400">place</span> to
+					<span class="text-indigo-400">talk</span> !
+				</p>
+				<div class="p-2 my-2">
+					<label for="roomName">Room name: </label>
+					<input
+						name="roomName"
+						type="text"
+						placeholder="Awesome room"
+						class="rounded-xl bg-transparent p-2 text-white border-solid border-2 border-purple-600"
+					/>
+				</div>
+			</div>
+			<div class="flex gap-2 bg-slate-700 p-4">
+				<button
+					type="submit"
+					class="inline-block mr-auto border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
+					>Clear</button
+				>
+				<button
+					type="submit"
+					class="inline-block border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
+					>Cancel</button
+				>
+				<button
+					type="submit"
+					class="inline-block border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
+					>Create</button
+				>
+			</div>
+		</form>
+	</svelte:fragment>
 </Dialog>
 <div class="flex justify-end">
 	<button
