@@ -1,8 +1,8 @@
 import type { Action, Actions } from '@sveltejs/kit';
-import { firestore } from "../../config/firebase"
-import { collection, addDoc, where, getDocs, query } from 'firebase/firestore';
+import { firestore } from '../../config/firebase';
+import { firestore as firestoreAdmin } from "../../config/firebase-admin"
+import { collection, query, where, getDocs } from "firebase/firestore"
 import { z } from "zod"
-
 const redirectToRoom: Action = async ({ request }) => {
 
 
@@ -55,6 +55,16 @@ const createRoom: Action = async ({ request }) => {
 
   try {
     const result = roomSchema.parse(formData)
+
+
+    const rooms = firestoreAdmin.collection("rooms")
+    await rooms.add({
+      title: result.roomName,
+    })
+    // const rooms = firestore.collection("rooms")
+    // addDoc(rooms, {
+    //   title: result.roomName,
+    // })
   }
   catch (err: any) {
     const { fieldErrors } = err.flatten()
