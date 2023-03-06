@@ -3,6 +3,9 @@ module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
+			boxShadowColor: {
+				blackTransparent: 'rgba(0, 0, 0, 0.3)'
+			},
 			animation: {
 				dropDownAppear: 'dropDownAppear 0.3s ease',
 				hueRotation: 'hueRotation 16s ease-in-out infinite',
