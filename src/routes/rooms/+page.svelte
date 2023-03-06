@@ -14,6 +14,7 @@
 	$: (isLoading = false), form;
 
 	let createRoomDialog: Dialog;
+	let formRoom: HTMLFormElement;
 </script>
 
 <Dialog bind:this={createRoomDialog}>
@@ -24,36 +25,50 @@
 		</h2>
 	</svelte:fragment>
 	<svelte:fragment slot="main">
-		<form>
+		<form class="lg:min-w-[450px]" bind:this={formRoom}>
 			<div class="my-8">
 				<p class="font-extrabold text-lg text-center my-2">
 					Create your new <span class="text-indigo-400">place</span> to
 					<span class="text-indigo-400">talk</span> !
 				</p>
-				<div class="p-2 my-2">
+				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
 					<label for="roomName">Room name: </label>
-					<input
-						name="roomName"
-						type="text"
-						placeholder="Awesome room"
-						class="rounded-xl bg-transparent p-2 text-white border-solid border-2 border-purple-600"
-					/>
+					<div class="relative">
+						<input
+							name="roomName"
+							type="text"
+							placeholder="Awesome room"
+							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
+							overflow-hidden text-ellipsis"
+						/>
+						<div
+							class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
+							translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
+						/>
+					</div>
 				</div>
 			</div>
 			<div class="flex gap-2 bg-slate-700 p-4">
 				<button
 					type="submit"
-					class="inline-block mr-auto border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
-					>Clear</button
+					class="inline-block mr-auto border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
+					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
+					on:click={() => {
+						formRoom.reset();
+					}}>Clear</button
 				>
 				<button
 					type="submit"
-					class="inline-block border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
-					>Cancel</button
+					class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
+					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
+					on:click={() => {
+						createRoomDialog.close();
+					}}>Cancel</button
 				>
 				<button
 					type="submit"
-					class="inline-block border-2 border-solid border-indigo-500 px-2 py-1 rounded-lg"
+					class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
+					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
 					>Create</button
 				>
 			</div>

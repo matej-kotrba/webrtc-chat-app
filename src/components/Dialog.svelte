@@ -33,4 +33,8 @@
 	dialog {
 		box-shadow: 0 0 40px rgba(255, 255, 255, 0.095);
 	}
+	dialog::backdrop {
+		background-color: black;
+		opacity: 0.35;
+	}
 </style>
