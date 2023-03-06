@@ -1,39 +1,45 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
-	import { onMount } from 'svelte';
+	import { fly, fade } from 'svelte/transition';
 
-	let dialogRef: HTMLDialogElement;
+	let dialogRef: HTMLDivElement;
+	let isOpen: boolean = false;
 
 	export function open() {
-		dialogRef.showModal();
+		isOpen = true;
 	}
 
-	onMount(() => {
-		dialogRef.showModal();
-	});
 	export function close() {
-		dialogRef.close();
+		isOpen = false;
 	}
 </script>
 
-<dialog
-	bind:this={dialogRef}
-	class="absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-slate-900 text-white"
->
-	<div class="flex justify-between bg-slate-700 p-4">
-		<slot name="header" />
-		<button on:click={close} class="ml-auto block"
-			><iconify-icon icon="akar-icons:cross" class="text-lg" /></button
+{#if isOpen}
+	<div
+		class="absolute left-0 top-0 w-[100vw] h-[100vh] bg-black z-[10000] bg-opacity-20"
+		transition:fade
+	>
+		<div
+			in:fly={{ y: -200 }}
+			out:fly={{ y: 200 }}
+			bind:this={dialogRef}
+			class="dialog-box absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl overflow-hidden bg-slate-900 text-white "
 		>
+			<div class="flex justify-between bg-slate-700 p-4">
+				<slot name="header" />
+				<button on:click={close} class="ml-auto block"
+					><iconify-icon icon="akar-icons:cross" class="text-lg" /></button
+				>
+			</div>
+			<slot name="main" />
+		</div>
 	</div>
-	<slot name="main" />
-</dialog>
+{/if}
 
 <style>
-	dialog {
+	.dialog-box {
 		box-shadow: 0 0 40px rgba(255, 255, 255, 0.095);
 	}
-	dialog::backdrop {
+	.dialog-box::backdrop {
 		background-color: black;
 		opacity: 0.35;
 	}
