@@ -25,7 +25,13 @@
 		</h2>
 	</svelte:fragment>
 	<svelte:fragment slot="main">
-		<form class="lg:min-w-[450px]" bind:this={formRoom}>
+		<form
+			class="lg:min-w-[450px]"
+			bind:this={formRoom}
+			use:enhance
+			method="POST"
+			action="?/createRoom"
+		>
 			<div class="my-8">
 				<p class="font-extrabold text-lg text-center my-2">
 					Create your new <span class="text-indigo-400">place</span> to
@@ -36,6 +42,38 @@
 					<div class="relative">
 						<input
 							name="roomName"
+							type="text"
+							placeholder="Awesome room"
+							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
+							overflow-hidden text-ellipsis"
+						/>
+						<div
+							class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
+							translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
+						/>
+					</div>
+				</div>
+				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
+					<label for="password">Password: </label>
+					<div class="relative">
+						<input
+							name="password"
+							type="text"
+							placeholder="Awesome room"
+							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
+							overflow-hidden text-ellipsis"
+						/>
+						<div
+							class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
+							translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
+						/>
+					</div>
+				</div>
+				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
+					<label for="confirmPassword">Confirm Password: </label>
+					<div class="relative">
+						<input
+							name="confirmPassword"
 							type="text"
 							placeholder="Awesome room"
 							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
