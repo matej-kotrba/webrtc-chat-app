@@ -3,6 +3,7 @@ import { firestore } from '../../config/firebase';
 import { firestore as firestoreAdmin } from "../../config/firebase-admin"
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { z } from "zod"
+
 const redirectToRoom: Action = async ({ request }) => {
 
 
@@ -60,11 +61,9 @@ const createRoom: Action = async ({ request }) => {
     const rooms = firestoreAdmin.collection("rooms")
     await rooms.add({
       title: result.roomName,
+      hasPassword: !!result.password,
+      password: result.password
     })
-    // const rooms = firestore.collection("rooms")
-    // addDoc(rooms, {
-    //   title: result.roomName,
-    // })
   }
   catch (err: any) {
     const { fieldErrors } = err.flatten()
@@ -85,7 +84,16 @@ const createRoom: Action = async ({ request }) => {
   // })
 }
 
+const checkPassword: Action = async ({ request }) => {
+  const formData = await request.formData()
+  const password = formData.get("password")
+  const roomId = formData.get("roomId")
+
+  const rooms = collection(firestore, "rooms")
+}
+
 export const actions: Actions = {
   redirectToRoom,
-  createRoom
+  createRoom,
+  checkPassword
 };
