@@ -4,9 +4,7 @@ import { firestore as firestoreAdmin } from "../../config/firebase-admin"
 import { collection, query, where, getDocs } from "firebase/firestore"
 import { z } from "zod"
 
-const redirectToRoom: Action = async ({ request }) => {
-
-
+const findRooms: Action = async ({ request }) => {
   const room = (await request.formData()).get('roomName');
 
   const rooms = collection(firestore, "rooms")
@@ -23,7 +21,12 @@ const redirectToRoom: Action = async ({ request }) => {
   return {
     status: 200,
     body: {
-      rooms: docs.map((doc) => doc.data()) || []
+      rooms: docs.map((doc) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password, ...rest } = doc.data()
+        return rest
+      }
+      ) as { title: string; hasPassword: boolean }[] || []
     }
   }
   // throw redirect(302, `/rooms/${room}`);
@@ -93,7 +96,7 @@ const checkPassword: Action = async ({ request }) => {
 }
 
 export const actions: Actions = {
-  redirectToRoom,
+  findRooms,
   createRoom,
   checkPassword
 };

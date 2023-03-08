@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import Dialog from '../../components/Dialog.svelte';
+	import Dialog from '../../components/dialogs/Dialog.svelte';
 	import type { ActionData } from './$types';
 
-	export let form: ActionData & { error: string | undefined };
+	export let form: ActionData;
 
 	let isLoading = false;
 
@@ -17,6 +17,7 @@
 	let formRoom: HTMLFormElement;
 
 	let passwordDialog: Dialog;
+	let passwordRoom: HTMLFormElement;
 </script>
 
 <Dialog bind:this={createRoomDialog}>
@@ -119,63 +120,29 @@
 <Dialog>
 	<svelte:fragment slot="header">
 		<h2 class="font-extrabold text-2xl flex items-center">
-			<iconify-icon
-				icon="material-symbols:meeting-room-outline-rounded"
-			/>Password
+			<iconify-icon icon="material-symbols:lock-outline" />Password
 		</h2>
 	</svelte:fragment>
 	<svelte:fragment slot="main">
 		<form
 			class="lg:min-w-[450px]"
-			bind:this={formRoom}
+			bind:this={passwordRoom}
 			use:enhance
 			method="POST"
 			action="?/checkPassword"
 		>
 			<div class="my-8">
 				<p class="font-extrabold text-lg text-center my-2">
-					Create your new <span class="text-indigo-400">place</span> to
-					<span class="text-indigo-400">talk</span> !
+					To access this <span class="text-indigo-400">room</span>, you need
+					<span class="text-indigo-400">password</span> !
 				</p>
-				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
-					<label for="roomName">Room name: </label>
-					<div class="relative">
-						<input
-							name="roomName"
-							type="text"
-							placeholder="Awesome room"
-							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
-							overflow-hidden text-ellipsis"
-						/>
-						<div
-							class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
-							translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
-						/>
-					</div>
-				</div>
 				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
 					<label for="password">Password: </label>
 					<div class="relative">
 						<input
 							name="password"
-							type="text"
-							placeholder="Awesome room"
-							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
-							overflow-hidden text-ellipsis"
-						/>
-						<div
-							class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
-							translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
-						/>
-					</div>
-				</div>
-				<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
-					<label for="confirmPassword">Confirm Password: </label>
-					<div class="relative">
-						<input
-							name="confirmPassword"
-							type="text"
-							placeholder="Awesome room"
+							type="password"
+							placeholder="Super secret"
 							class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
 							overflow-hidden text-ellipsis"
 						/>
@@ -192,7 +159,7 @@
 					class="inline-block mr-auto border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
 					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
 					on:click={() => {
-						formRoom.reset();
+						passwordRoom.reset();
 					}}>Clear</button
 				>
 				<button
@@ -200,14 +167,14 @@
 					class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
 					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
 					on:click={() => {
-						createRoomDialog.close();
+						passwordDialog.close();
 					}}>Cancel</button
 				>
 				<button
 					type="submit"
 					class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
 					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
-					>Create</button
+					>Join</button
 				>
 			</div>
 		</form>
@@ -222,7 +189,7 @@
 </div>
 <div class="perspective-container isolate mb-24">
 	<form
-		action="?/redirectToRoom"
+		action="?/findRooms"
 		method="POST"
 		use:enhance
 		on:submit={onSearch}
@@ -283,18 +250,24 @@
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mx-2 xl:mx-24"
 	>
-		{#each form?.body?.rooms as { title }}
-			<a
-				href="/rooms/{title}"
-				class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate
+		{#each form.body.rooms as { title, hasPassword }}
+			{#if hasPassword}
+				<a
+					href="/rooms/{title}"
+					class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate
 				p-2 rounded-md shadow-xl shadow-[#4338ca4f] group flex items-center justify-between"
-			>
-				<p>Room name: <span class="font-extrabold">{title}</span></p>
-				<iconify-icon
-					icon="system-uicons:enter"
-					class="opacity-0 group-hover:opacity-100 duration-150 text-2xl"
-				/>
-			</a>
+				>
+					<p>Room name: <span class="font-extrabold">{title}</span></p>
+					<iconify-icon
+						icon="system-uicons:enter"
+						class="opacity-0 group-hover:opacity-100 duration-150 text-2xl"
+					/>
+				</a>
+			{/if}
+			<iconify-icon
+				icon="material-symbols:lock-outline"
+				class="absolute opacity-100 group-hover:opacity-0 duration-150 text-2xl right-2 top-[50%] translate-y-[-50%]"
+			/>
 		{/each}
 	</div>
 {/if}
