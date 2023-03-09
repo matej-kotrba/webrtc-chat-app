@@ -4,7 +4,7 @@
 
 	let shouldAnimate = false;
 
-	$: if (loading) {
+	$: if ($loading) {
 		shouldAnimate = false;
 		setTimeout(() => {
 			shouldAnimate = true;
