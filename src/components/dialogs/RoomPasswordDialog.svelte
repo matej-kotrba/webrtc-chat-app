@@ -4,6 +4,8 @@
 
 	export let actionLink: string;
 	export let formTitle: string;
+	export let roomId: string;
+
 	let dialogRef: any = null;
 
 	export function openDialog() {
@@ -23,6 +25,11 @@
 		<BasicForm
 			{actionLink}
 			formInputs={[
+				{
+					name: 'roomId',
+					text: 'Room ID',
+					type: 'hidden'
+				},
 				{
 					name: 'password',
 					text: 'Password',

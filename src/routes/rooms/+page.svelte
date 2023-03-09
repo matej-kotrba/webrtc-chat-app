@@ -3,14 +3,11 @@
 	import Dialog from '../../components/dialogs/Dialog.svelte';
 	import type { ActionData } from './$types';
 	import RoomPasswordDialog from '../../components/dialogs/RoomPasswordDialog.svelte';
-	import type { HTMLAttributes } from 'svelte/elements';
-	import type { ComponentProps } from 'svelte';
-	import type { SvelteComponent } from 'svelte/internal';
-	import type { ComponentType } from 'svelte/types/runtime/internal/dev';
 
 	export let form: ActionData;
 
-	let rooms: { title: string; hasPassword: boolean }[] | null = null;
+	let rooms: { title: string; hasPassword: boolean; id: string }[] | null =
+		null;
 	$: rooms = form?.body?.rooms || rooms;
 
 	let isLoading = false;
@@ -26,6 +23,7 @@
 
 	let passwordDialogRef: RoomPasswordDialog | null = null;
 	let passwordRoomTitle = '';
+	let passwordRoomId = '';
 </script>
 
 <Dialog bind:this={createRoomDialog}>
@@ -129,6 +127,7 @@
 	bind:this={passwordDialogRef}
 	actionLink="checkPassword"
 	formTitle="Joining room: {passwordRoomTitle}"
+	roomId={passwordRoomId}
 />
 
 <div class="flex justify-end">
@@ -199,13 +198,14 @@
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mx-2 xl:mx-24"
 	>
-		{#each rooms as { title, hasPassword }}
+		{#each rooms as { title, hasPassword, id }}
 			{#if hasPassword}
 				<button
 					on:click={() => {
 						if (passwordDialogRef) {
 							passwordDialogRef?.openDialog();
 							passwordRoomTitle = title;
+							passwordRoomId = id;
 						}
 					}}
 					class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate

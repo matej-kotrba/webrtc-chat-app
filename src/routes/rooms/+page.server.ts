@@ -1,7 +1,8 @@
-import type { Action, Actions } from '@sveltejs/kit';
+import { redirect, type Action, type Actions } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { firestore } from '../../config/firebase';
 import { firestore as firestoreAdmin } from "../../config/firebase-admin"
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore"
 import { z } from "zod"
 
 const findRooms: Action = async ({ request }) => {
@@ -24,9 +25,9 @@ const findRooms: Action = async ({ request }) => {
       rooms: docs.map((doc) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password, ...rest } = doc.data()
-        return rest
+        return { ...rest, id: doc.id }
       }
-      ) as { title: string; hasPassword: boolean }[] || []
+      ) as { title: string; hasPassword: boolean, id: string }[] || []
     }
   }
   // throw redirect(302, `/rooms/${room}`);
@@ -92,7 +93,13 @@ const checkPassword: Action = async ({ request }) => {
   const password = formData.get("password")
   const roomId = formData.get("roomId")
 
-  const rooms = collection(firestore, "rooms")
+  if (!password || !roomId) throw error(400, "Bad request")
+
+  const room = await getDoc(doc(firestore, "rooms", roomId as string))
+
+  if (!room.exists()) throw error(404, "Room not found")
+
+  throw redirect(302, `/rooms/${room}`)
 }
 
 export const actions: Actions = {
