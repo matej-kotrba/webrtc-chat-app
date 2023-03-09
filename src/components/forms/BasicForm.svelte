@@ -8,7 +8,7 @@
 		placeholder?: string;
 		type: InputTypeAttributes;
 	}[];
-	export let dialogRef: HTMLDialogElement | null = null;
+	export let dialogRef: any = null;
 	export let submitButtonText: string = 'Submit';
 
 	let formRef: HTMLFormElement | null = null;
@@ -46,7 +46,7 @@
 	</div>
 	<div class="flex gap-2 bg-slate-700 p-4">
 		<button
-			type="submit"
+			type="button"
 			class="inline-block mr-auto border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
 					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
 			on:click={() => {
@@ -55,7 +55,7 @@
 		>
 		{#if dialogRef}
 			<button
-				type="submit"
+				type="button"
 				class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
 					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
 				on:click={() => {
