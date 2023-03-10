@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { InputTypeAttributes } from '../../types/form';
+	import type { HTMLInputAttributes } from 'svelte/elements';
 	export let actionLink: string;
-	export let formInputs: {
+	export let formInputs: ({
 		name: string;
 		text: string;
 		placeholder?: string;
 		type: InputTypeAttributes;
-	}[];
+	} & HTMLInputAttributes)[];
 	export let dialogRef: any = null;
 	export let submitButtonText: string = 'Submit';
 
@@ -25,16 +26,14 @@
 		<p class="font-extrabold text-lg text-center my-2">
 			<slot name="title" />
 		</p>
-		{#each formInputs as { name, text, type, placeholder }}
+		{#each formInputs as { text, ...attrs }}
 			<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
-				{#if type !== 'hidden'}
-					<label for={name}>{text}: </label>
+				{#if attrs.type !== 'hidden'}
+					<label for={attrs.name}>{text}: </label>
 				{/if}
 				<div class="relative">
 					<input
-						{name}
-						{type}
-						placeholder={placeholder || ''}
+						{...attrs}
 						class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
 								overflow-hidden text-ellipsis"
 					/>

@@ -99,7 +99,9 @@ const checkPassword: Action = async ({ request }) => {
 
   if (!room.exists()) throw error(404, "Room not found")
 
-  throw redirect(302, `/rooms/${room}`)
+  const { title } = await room.data()
+
+  throw redirect(302, `/rooms/${title}`)
 }
 
 export const actions: Actions = {

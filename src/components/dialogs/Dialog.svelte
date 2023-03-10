@@ -16,11 +16,11 @@
 {#if isOpen}
 	<div
 		class="absolute left-0 top-0 w-[100vw] h-[100vh] bg-black z-[10000] bg-opacity-20"
-		transition:fade
+		transition:fade|local
 	>
 		<div
-			in:fly={{ y: -200 }}
-			out:fly={{ y: 200 }}
+			in:fly|local={{ y: -200 }}
+			out:fly|local={{ y: 200 }}
 			bind:this={dialogRef}
 			class="dialog-box absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl overflow-hidden bg-slate-900 text-white "
 		>

@@ -28,7 +28,8 @@
 				{
 					name: 'roomId',
 					text: 'Room ID',
-					type: 'hidden'
+					type: 'hidden',
+					value: roomId
 				},
 				{
 					name: 'password',
