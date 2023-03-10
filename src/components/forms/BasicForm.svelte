@@ -27,7 +27,9 @@
 		</p>
 		{#each formInputs as { name, text, type, placeholder }}
 			<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
-				<label for={name}>{text}: </label>
+				{#if type !== 'hidden'}
+					<label for={name}>{text}: </label>
+				{/if}
 				<div class="relative">
 					<input
 						{name}
