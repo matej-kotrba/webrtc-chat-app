@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Dialog from './Dialog.svelte';
 	import BasicForm from '../forms/BasicForm.svelte';
+	import { page } from '$app/stores';
 
 	export let actionLink: string;
 	export let formTitle: string;
@@ -29,7 +30,8 @@
 					name: 'roomId',
 					text: 'Room ID',
 					type: 'hidden',
-					value: roomId
+					value: roomId,
+					error: $page.form.passwordError || undefined
 				},
 				{
 					name: 'password',

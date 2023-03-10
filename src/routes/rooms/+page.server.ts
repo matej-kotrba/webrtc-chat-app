@@ -99,7 +99,13 @@ const checkPassword: Action = async ({ request }) => {
 
   if (!room.exists()) throw error(404, "Room not found")
 
-  const { title } = await room.data()
+  const { title, password: passw } = await room.data()
+
+  if (passw !== password) {
+    return {
+      passwordError: "Yikes! Wrong password."
+    }
+  }
 
   throw redirect(302, `/rooms/${title}`)
 }
