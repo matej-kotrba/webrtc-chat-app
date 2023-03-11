@@ -33,17 +33,17 @@
 					<input
 						{...attrs}
 						class="bg-transparent p-2 text-white outline-none border-solid border-b-2 border-gray-700 peer
-								overflow-hidden text-ellipsis"
+						overflow-hidden text-ellipsis"
 					/>
 					<div
 						class="content-[''] absolute w-full h-[2px] bottom-[0px] bg-indigo-600 left-[50%]
-								translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
+						translate-x-[-50%] scale-x-0 duration-200 peer-focus-within:scale-x-100"
 					/>
-					{#if error}
-						<p>{error}</p>
-					{/if}
 				</div>
 			</div>
+			{#if error}
+				<p class="text-red-500 text-center">{error}</p>
+			{/if}
 		{/each}
 	</div>
 	<div class="flex gap-2 bg-slate-700 p-4">

@@ -30,14 +30,14 @@
 					name: 'roomId',
 					text: 'Room ID',
 					type: 'hidden',
-					value: roomId,
-					error: $page.form.passwordError || undefined
+					value: roomId
 				},
 				{
 					name: 'password',
 					text: 'Password',
 					type: 'password',
-					placeholder: 'Enter password'
+					placeholder: 'Enter password',
+					error: $page.form.passwordError || undefined
 				}
 			]}
 			{dialogRef}

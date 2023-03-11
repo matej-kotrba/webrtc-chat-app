@@ -1,4 +1,4 @@
-import { redirect, type Action, type Actions } from '@sveltejs/kit';
+import { redirect, type Action, type Actions, fail } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { firestore } from '../../config/firebase';
 import { firestore as firestoreAdmin } from "../../config/firebase-admin"
@@ -99,15 +99,16 @@ const checkPassword: Action = async ({ request }) => {
 
   if (!room.exists()) throw error(404, "Room not found")
 
-  const { title, password: passw } = await room.data()
+  const { password: passw } = await room.data()
+  const id = room.id
 
   if (passw !== password) {
-    return {
+    return fail(400, {
       passwordError: "Yikes! Wrong password."
-    }
+    })
   }
 
-  throw redirect(302, `/rooms/${title}`)
+  throw redirect(302, `/rooms/${id}`)
 }
 
 export const actions: Actions = {

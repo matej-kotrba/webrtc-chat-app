@@ -223,7 +223,7 @@
 				</button>
 			{:else}
 				<a
-					href="/rooms/{title}"
+					href="/rooms/{id}"
 					class="link-to-room bg-transparent border-4 border-solid border-indigo-500 relative isolate
 						p-2 rounded-md shadow-xl shadow-[#4338ca4f] group flex items-center justify-between"
 				>
