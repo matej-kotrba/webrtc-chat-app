@@ -2,7 +2,7 @@
 	import Tooltip from '../../../components/Tooltip.svelte';
 	import CopyToClipboard from '../../../components/CopyToClipboard.svelte';
 
-	import type { PageData } from './$types';
+	import type { PageData } from '../[roomId]/$types';
 	import { browser } from '$app/environment';
 	import VideoCall from '../../../components/VideoCall.svelte';
 

@@ -1,21 +1,21 @@
 import type { ServerLoad } from "@sveltejs/kit";
-import { collection, getDocs, query, where } from "firebase/firestore"
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore"
 import { firestore } from "../../../config/firebase"
 import { error } from "@sveltejs/kit";
 
 export const load: ServerLoad = async ({ params }) => {
-  const room = params.roomName
+  const id = params.roomId
 
   const rooms = collection(firestore, "rooms")
-  const q = query(rooms, where("title", "==", room))
+  const q = doc(rooms, id)//query(rooms, where("id", "==", id))
 
-  const doc = (await getDocs(q)).docs[0]
+  const docData = await (await getDoc(q)).data()
 
-  if (!doc) {
+  if (!docData) {
     throw error(404, "It seems that this room doesn't exist 😕")
   }
   return {
-    roomName: params.roomName as string,
-    roomId: doc.id as string
+    roomName: docData.title as string,
+    roomId: params.roomId as string
   }
 }
