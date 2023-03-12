@@ -13,6 +13,6 @@
 
 <style>
 	.status-code {
-		font-size: 8rem;
+		font-size: 8.5rem;
 	}
 </style>

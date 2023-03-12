@@ -5,6 +5,7 @@ import { firestore as firestoreAdmin } from "../../config/firebase-admin"
 import { collection, query, where, getDocs, doc, getDoc, limit } from "firebase/firestore"
 import { z } from "zod"
 
+// TODO: Add pagination
 const findRooms: Action = async ({ request }) => {
   const room = (await request.formData()).get('roomName');
 

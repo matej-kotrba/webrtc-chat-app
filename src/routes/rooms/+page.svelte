@@ -12,12 +12,6 @@
 
 	let isLoading = false;
 
-	function onSearch() {
-		isLoading = true;
-	}
-
-	$: (isLoading = false), form;
-
 	let createRoomDialog: Dialog;
 	let formRoom: HTMLFormElement;
 
@@ -140,8 +134,13 @@
 	<form
 		action="?/findRooms"
 		method="POST"
-		use:enhance
-		on:submit={onSearch}
+		use:enhance={({}) => {
+			isLoading = true;
+			return async ({ update }) => {
+				isLoading = false;
+				await update();
+			};
+		}}
 		class="relative flex flex-col items-center max-w-2xl gap-2 p-8 py-12 mx-auto"
 	>
 		<div
@@ -153,11 +152,13 @@
 			<img
 				src="wave2.png"
 				alt="Decorative wave"
+				role="presentation"
 				class="absolute right-[100%] w-full h-full animate-transformRight"
 			/>
 			<img
 				src="wave2.png"
 				alt="Decorative wave"
+				role="presentation"
 				class="absolute w-full h-full animate-transformRight left-[-2px] top-[1.2px]"
 			/>
 		</div>
