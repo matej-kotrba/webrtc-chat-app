@@ -2,14 +2,14 @@ import { redirect, type Action, type Actions, fail } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
 import { firestore } from '../../config/firebase';
 import { firestore as firestoreAdmin } from "../../config/firebase-admin"
-import { collection, query, where, getDocs, doc, getDoc } from "firebase/firestore"
+import { collection, query, where, getDocs, doc, getDoc, limit } from "firebase/firestore"
 import { z } from "zod"
 
 const findRooms: Action = async ({ request }) => {
   const room = (await request.formData()).get('roomName');
 
   const rooms = collection(firestore, "rooms")
-  const q = query(rooms, where("title", ">=", room), where("title", "<=", room + "\uf8ff"))
+  const q = query(rooms, where("title", ">=", room), where("title", "<=", room + "\uf8ff"), limit(10))
 
   const docs = (await getDocs(q)).docs
 

@@ -12,7 +12,7 @@ export const load: ServerLoad = async ({ params }) => {
   const doc = (await getDocs(q)).docs[0]
 
   if (!doc) {
-    throw error(404, "It seems that room doesn't exist 😕")
+    throw error(404, "It seems that this room doesn't exist 😕")
   }
   return {
     roomName: params.roomName as string,
