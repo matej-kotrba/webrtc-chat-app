@@ -25,7 +25,11 @@
 			<slot name="title" />
 		</p>
 		{#each formInputs as { text, error, ...attrs }}
-			<div class="p-2 my-2 flex justify-center items-center gap-2 relative">
+			<div
+				class="{attrs.type !== 'hidden'
+					? 'p-2 my-2'
+					: ''} flex justify-center items-center gap-2 relative"
+			>
 				{#if attrs.type !== 'hidden'}
 					<label for={attrs.name}>{text}: </label>
 				{/if}
