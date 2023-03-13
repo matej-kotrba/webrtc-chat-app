@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { auth } from '../config/firebase';
+	import { goto } from '$app/navigation';
 
 	$: $loading = !!$navigating;
 
@@ -41,6 +42,7 @@
 					'Content-Type': 'application/json'
 				}
 			});
+			if (!newUser) goto('/');
 		});
 	});
 </script>
