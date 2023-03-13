@@ -3,6 +3,7 @@
 	import Dialog from '../../components/dialogs/Dialog.svelte';
 	import type { ActionData } from './$types';
 	import RoomPasswordDialog from '../../components/dialogs/RoomPasswordDialog.svelte';
+	import FancyButton from '../../components/buttons/FancyButton.svelte';
 
 	export let form: ActionData;
 
@@ -124,10 +125,12 @@
 	roomId={passwordRoomId}
 />
 
+<!-- class="bg-indigo-500 rounded-lg p-3" -->
 <div class="flex justify-end">
-	<button
-		class="bg-indigo-500 rounded-lg p-3"
-		on:click={() => createRoomDialog.open()}>Create you own room!</button
+	<FancyButton
+		title="Create you own room!"
+		onClickFnc={() => createRoomDialog.open()}
+		><iconify-icon icon="gridicons:create" class="text-xl" /></FancyButton
 	>
 </div>
 <div class="perspective-container isolate mb-24">
