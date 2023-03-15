@@ -40,6 +40,8 @@ const roomSchema = z.object({
     .max(20, { message: "Name has to be shorther than 20 characters !" })
     .trim(),
   password: z.union([z.string().length(0), z.string().min(4).max(20)]).optional(),
+  userId: z.string(),
+  userEmail: z.string().email(),
   confirmPassword: z.union([z.string().length(0), z.string().min(4).max(20)]).optional(),
 }).superRefine(({ password, confirmPassword }, ctx) => {
   if (password !== confirmPassword) {
@@ -58,7 +60,6 @@ const roomSchema = z.object({
 
 const createRoom: Action = async ({ request }) => {
   const formData = Object.fromEntries(await request.formData())
-
   try {
     const result = roomSchema.parse(formData)
 
@@ -67,7 +68,9 @@ const createRoom: Action = async ({ request }) => {
     await rooms.add({
       title: result.roomName,
       hasPassword: !!result.password,
-      password: result.password
+      password: result.password,
+      userId: result.userId,
+      userEmail: result.userEmail,
     })
   }
   catch (err: any) {
