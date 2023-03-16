@@ -64,7 +64,12 @@
 				type: 'password'
 			}
 		]}
-	/>
+	>
+		<p slot="title">
+			Create your <span class="text-blue-400">place</span> to
+			<span class="text-blue-400">chat</span>!
+		</p>
+	</BasicForm>
 	<!-- <button
 					type="button"
 					class="inline-block mr-auto border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
@@ -108,11 +113,11 @@
 	<form
 		action="?/findRooms"
 		method="POST"
-		use:enhance={({}) => {
+		use:enhance={() => {
 			isLoading = true;
 			return async ({ update }) => {
-				isLoading = false;
 				await update();
+				isLoading = false;
 			};
 		}}
 		class="relative flex flex-col items-center max-w-2xl gap-2 p-8 py-12 mx-auto"

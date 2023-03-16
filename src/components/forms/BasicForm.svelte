@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { updateCurrentUser } from 'firebase/auth';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 	export let actionLink: string;
 	export let formInputs: ({
@@ -11,11 +12,19 @@
 	export let submitButtonText: string = 'Submit';
 
 	let formRef: HTMLFormElement | null = null;
+
+	let isLoading: boolean = false;
 </script>
 
 <form
 	class="lg:min-w-[450px]"
-	use:enhance
+	use:enhance={() => {
+		isLoading = true;
+		return async ({ update }) => {
+			await update();
+			isLoading = false;
+		};
+	}}
 	method="POST"
 	action="?/{actionLink}"
 	bind:this={formRef}
@@ -28,11 +37,12 @@
 			<div
 				class="{attrs.type !== 'hidden'
 					? 'p-2 my-2'
-					: ''} flex justify-center items-center gap-2 relative"
+					: ''} flex flex-col justify-center items-center gap-2 relative"
 			>
 				{#if attrs.type !== 'hidden'}
 					<label for={attrs.name}>{text}: </label>
 				{/if}
+				<!-- border-2 border-indigo-900 border-solid p-2 rounded-lg -->
 				<div class="relative">
 					<input
 						{...attrs}
