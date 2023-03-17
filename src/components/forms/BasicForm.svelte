@@ -42,7 +42,6 @@
 				{#if attrs.type !== 'hidden'}
 					<label for={attrs.name}>{text}: </label>
 				{/if}
-				<!-- border-2 border-indigo-900 border-solid p-2 rounded-lg -->
 				<div class="relative">
 					<input
 						{...attrs}
