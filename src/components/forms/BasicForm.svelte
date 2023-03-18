@@ -71,8 +71,8 @@
 	<div class="flex gap-2 bg-slate-700 p-4">
 		<button
 			type="button"
-			class="inline-block mr-auto border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
-					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
+			class="inline-block mr-auto border-2 bg-transparent border-indigo-500 border-solid px-4 py-2 rounded-full
+					shadow-md shadow-blackTransparent hover:bg-indigo-500 duration-100"
 			on:click={() => {
 				formRef?.reset();
 			}}>Clear</button
@@ -80,8 +80,8 @@
 		{#if dialogRef}
 			<button
 				type="button"
-				class="inline-block border-2 bg-indigo-600 border-none px-4 py-2 rounded-full
-					shadow-md shadow-blackTransparent hover:text-indigo-600 hover:bg-white duration-100"
+				class="inline-block border-2 bg-transparent border-indigo-500 border-solid px-4 py-2 rounded-full
+					shadow-md shadow-blackTransparent hover:bg-indigo-500 duration-100"
 				on:click={() => {
 					dialogRef?.close();
 				}}>Cancel</button
