@@ -3,6 +3,7 @@ import { error } from '@sveltejs/kit';
 import { firestore } from '../../config/firebase';
 import { firestore as firestoreAdmin } from "../../config/firebase-admin"
 import { collection, query, where, getDocs, doc, getDoc, limit } from "firebase/firestore"
+import { FieldValue } from "firebase-admin/firestore"
 import { z } from "zod"
 
 // TODO: Add pagination
@@ -63,17 +64,22 @@ const createRoom: Action = async ({ request }) => {
   try {
     const result = roomSchema.parse(formData)
 
-
     const rooms = firestoreAdmin.collection("rooms")
-    await rooms.add({
+    const { id } = await rooms.add({
       title: result.roomName,
       hasPassword: !!result.password,
       password: result.password,
       userId: result.userId,
       userEmail: result.userEmail,
     })
+
+    const user = firestoreAdmin.collection("users").where("id", "==", result.userId).limit(1)
+    await (await user.get()).docs[0].ref.update({
+      rooms: FieldValue.arrayUnion(id)
+    })
   }
   catch (err: any) {
+    console.log(err)
     const { fieldErrors } = err.flatten()
     const { password, confirmPassword, ...rest } = formData
     console.log(formData)
@@ -83,13 +89,6 @@ const createRoom: Action = async ({ request }) => {
       errors: fieldErrors
     }
   }
-
-  // const room = formData.get('roomName')
-
-  // const rooms = collection(firestore, "rooms")
-  // addDoc(rooms, {
-  //   title: room,
-  // })
 }
 
 const checkPassword: Action = async ({ request }) => {

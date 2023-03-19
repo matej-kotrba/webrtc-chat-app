@@ -13,6 +13,14 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { auth } from '../config/firebase';
 	import { goto } from '$app/navigation';
+	import { firestore } from '../config/firebase';
+	import {
+		addDoc,
+		collection,
+		getDocs,
+		query,
+		where
+	} from 'firebase/firestore';
 
 	$: $loading = !!$navigating;
 
@@ -32,8 +40,9 @@
 		setContext('isInCall', writable(false));
 	}
 
+	// Checking if user is logged in
 	onMount(async () => {
-		onAuthStateChanged(auth, (newUser) => {
+		onAuthStateChanged(auth, async (newUser) => {
 			$user = newUser;
 			fetch('/api/userLoginState', {
 				method: 'POST',
@@ -42,7 +51,22 @@
 					'Content-Type': 'application/json'
 				}
 			});
-			if (!newUser) goto('/');
+			if (!newUser) {
+				goto('/');
+				return;
+			}
+			// Here we create user in firestore if it doesn't exist so we can store rooms he owns
+			const users = collection(firestore, 'users');
+			const data = query(users, where('id', '==', newUser!.uid));
+			const docUser = await getDocs(data);
+
+			if (docUser.docs.length === 0) {
+				console.log('aaaaa');
+				addDoc(users, {
+					id: newUser!.uid,
+					rooms: []
+				});
+			}
 		});
 	});
 </script>

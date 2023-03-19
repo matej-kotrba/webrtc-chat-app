@@ -22,7 +22,7 @@
 			in:fly|local={{ y: -200 }}
 			out:fly|local={{ y: 200 }}
 			bind:this={dialogRef}
-			class="dialog-box absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl overflow-hidden bg-slate-900 text-white "
+			class="dialog-box min-w-[90%] sm:min-w-[25rem] md:min-w-[30rem] xl:min-w-[40rem] absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] rounded-xl overflow-hidden bg-slate-900 text-white "
 		>
 			<div class="flex justify-between bg-slate-700 p-4">
 				<slot name="header" />
