@@ -7,25 +7,51 @@
 </script>
 
 <nav
-	class="bg-slate-900 relative left-0 top-0 h-full flex flex-col {customStyles} overflow-hidden"
+	class="bg-slate-900 relative left-0 top-0 h-full flex flex-col {customStyles} z-10"
 >
-	<div class="flex flex-col gap-2 text-xl py-3 px-3">
-		<a href="/" class="py-2 pl-5 pr-20 text-left hover:bg-slate-800 rounded-md"
-			>Home</a
+	<div class="flex flex-col gap-2 text-xl bg-slate-900">
+		<a
+			href="/"
+			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent 
+			duration-150 flex gap-1 items-center"
+			><iconify-icon icon="ic:round-home" class="text-2xl" /> Home</a
 		>
-		<div class="separator h-[1px] bg-slate-700" />
+		<!-- <div class="separator h-[1px] bg-slate-700" /> -->
 		{#if $user}
 			<a
 				href="/rooms"
 				transition:fade
-				class="py-2 pl-5 pr-20 text-left hover:bg-slate-800 rounded-md">Rooms</a
-			>
-			<div class="separator h-[1px] bg-slate-700" />
+				class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent
+				 duration-100 relative group/rooms flex gap-1 items-center"
+				><iconify-icon
+					icon="material-symbols:meeting-room-rounded"
+					class="text-2xl"
+				/>
+				Rooms
+				<div
+					class="absolute left-[-100%] top-0 flex flex-col bg-indigo-900 p-2 group-hover/rooms:left-[100%]
+					 hover:left-[100%] duration-200 z-[-100] rounded-tr-md rounded-br-md"
+				>
+					<a
+						href="/rooms"
+						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md"
+						><iconify-icon icon="mdi:user" /> Search Rooms</a
+					>
+					<div class="separator h-[1px] my-2 bg-slate-300" />
+					<a
+						href="/profile/rooms"
+						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md"
+						><iconify-icon icon="material-symbols:search" /> My Rooms</a
+					>
+				</div>
+			</a>
+			<!-- <div class="separator h-[1px] bg-slate-700" /> -->
 		{/if}
 		<a
 			href="/about"
 			transition:fade
-			class="py-2 pl-5 pr-20 text-left hover:bg-slate-800 rounded-md">About</a
+			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-1 items-center"
+			><iconify-icon icon="mdi:about-circle-outline" class="text-2xl" /> About</a
 		>
 	</div>
 	<!-- <div class="h-[100px] mb-auto" /> -->

@@ -4,7 +4,8 @@ module.exports = {
 	theme: {
 		extend: {
 			boxShadowColor: {
-				blackTransparent: 'rgba(0, 0, 0, 0.3)'
+				blackTransparent: 'rgba(0, 0, 0, 0.3)',
+				indigoTransparent: 'rgba(55, 48, 163, 0.3)'
 			},
 			animation: {
 				dropDownAppear: 'dropDownAppear 0.3s ease',
