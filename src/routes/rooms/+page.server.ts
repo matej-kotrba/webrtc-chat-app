@@ -64,19 +64,25 @@ const createRoom: Action = async ({ request }) => {
   try {
     const result = roomSchema.parse(formData)
 
-    const rooms = firestoreAdmin.collection("rooms")
-    const { id } = await rooms.add({
-      title: result.roomName,
-      hasPassword: !!result.password,
-      password: result.password,
-      userId: result.userId,
-      userEmail: result.userEmail,
+    await new Promise((resolve, reject) => {
+      return setTimeout(() => {
+        resolve("ok")
+      }, 2000)
     })
 
-    const user = firestoreAdmin.collection("users").where("id", "==", result.userId).limit(1)
-    await (await user.get()).docs[0].ref.update({
-      rooms: FieldValue.arrayUnion(id)
-    })
+    // const rooms = firestoreAdmin.collection("rooms")
+    // const { id } = await rooms.add({
+    //   title: result.roomName,
+    //   hasPassword: !!result.password,
+    //   password: result.password,
+    //   userId: result.userId,
+    //   userEmail: result.userEmail,
+    // })
+
+    // const user = firestoreAdmin.collection("users").where("id", "==", result.userId).limit(1)
+    // await (await user.get()).docs[0].ref.update({
+    //   rooms: FieldValue.arrayUnion(id)
+    // })
   }
   catch (err: any) {
     console.log(err)

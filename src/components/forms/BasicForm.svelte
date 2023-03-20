@@ -29,6 +29,19 @@
 	action="?/{actionLink}"
 	bind:this={formRef}
 >
+	{#if isLoading}
+		<div
+			class="absolute inset-0 bg-black bg-opacity-25 grid content-center z-10"
+		>
+			<div class="flex justify-center">
+				<iconify-icon
+					icon="mdi:loading"
+					class="animate-spin text-[4rem] text-blue-400"
+				/>
+			</div>
+		</div>
+	{/if}
+	<div />
 	<div class="my-8">
 		<p class="font-extrabold text-lg text-center my-2">
 			<slot name="title" />
