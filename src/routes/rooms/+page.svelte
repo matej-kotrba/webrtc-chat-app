@@ -16,7 +16,6 @@
 	let isLoading = false;
 
 	let createRoomDialog: Dialog;
-	let formRoom: HTMLFormElement;
 
 	let passwordDialogRef: RoomPasswordDialog | null = null;
 	let passwordRoomTitle = '';
@@ -50,13 +49,15 @@
 				name: 'roomName',
 				text: 'Room name',
 				type: 'text',
-				placeholder: 'Awesome room'
+				placeholder: 'Awesome room',
+				value: form?.data?.roomName ?? undefined
 			},
 			{
 				name: 'password',
 				text: 'Password',
 				type: 'password',
-				placeholder: 'Super secret'
+				placeholder: 'Super secret',
+				error: form?.errors?.password[0]
 			},
 			{
 				name: 'confirmPassword',

@@ -64,29 +64,24 @@ const createRoom: Action = async ({ request }) => {
   try {
     const result = roomSchema.parse(formData)
 
-    await new Promise((resolve, reject) => {
-      return setTimeout(() => {
-        resolve("ok")
-      }, 2000)
+    const rooms = firestoreAdmin.collection("rooms")
+    const { id } = await rooms.add({
+      title: result.roomName,
+      hasPassword: !!result.password,
+      password: result.password,
+      userId: result.userId,
+      userEmail: result.userEmail,
     })
 
-    // const rooms = firestoreAdmin.collection("rooms")
-    // const { id } = await rooms.add({
-    //   title: result.roomName,
-    //   hasPassword: !!result.password,
-    //   password: result.password,
-    //   userId: result.userId,
-    //   userEmail: result.userEmail,
-    // })
-
-    // const user = firestoreAdmin.collection("users").where("id", "==", result.userId).limit(1)
-    // await (await user.get()).docs[0].ref.update({
-    //   rooms: FieldValue.arrayUnion(id)
-    // })
+    const user = firestoreAdmin.collection("users").where("id", "==", result.userId).limit(1)
+    await (await user.get()).docs[0].ref.update({
+      rooms: FieldValue.arrayUnion(id)
+    })
   }
   catch (err: any) {
     console.log(err)
     const { fieldErrors } = err.flatten()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, confirmPassword, ...rest } = formData
     console.log(formData)
     console.log(fieldErrors)
