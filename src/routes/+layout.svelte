@@ -42,7 +42,7 @@
 
 	// Checking if user is logged in
 	onMount(async () => {
-		onAuthStateChanged(auth, async (newUser) => {
+		const listener = onAuthStateChanged(auth, async (newUser) => {
 			$user = newUser;
 			fetch('/api/userLoginState', {
 				method: 'POST',
@@ -68,6 +68,8 @@
 				});
 			}
 		});
+
+		return listener();
 	});
 </script>
 

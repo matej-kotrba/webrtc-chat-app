@@ -34,19 +34,25 @@
 				>
 					<a
 						href="/rooms"
-						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md"
-						><iconify-icon icon="mdi:user" /> Search Rooms</a
+						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
+						><iconify-icon icon="material-symbols:search" /> Search Rooms</a
 					>
 					<div class="separator h-[1px] my-2 bg-slate-300" />
 					<a
 						href="/profile/rooms"
-						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md"
-						><iconify-icon icon="material-symbols:search" /> My Rooms</a
+						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
+						><iconify-icon icon="mdi:user" /> My Rooms</a
 					>
 				</div>
 			</a>
 			<!-- <div class="separator h-[1px] bg-slate-700" /> -->
 		{/if}
+		<a
+			href="/profile"
+			transition:fade
+			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-1 items-center"
+			><iconify-icon icon="mdi:user" class="text-2xl" /> Profile</a
+		>
 		<a
 			href="/about"
 			transition:fade
