@@ -17,10 +17,16 @@
 
 	async function getRooms(user: any) {
 		try {
+			rooms = [];
 			const usersCollection = collection(firestore, 'users');
 			const q = query(usersCollection, where('id', '==', user.uid));
 			const roomsDocs = await getDocs(q);
 			const idsArray = roomsDocs.docs[0].data().rooms;
+			idsArray.forEach(async (id: string) => {
+				const room = await getDoc(doc(firestore, 'rooms', id));
+				rooms = [...rooms, room.data()];
+			});
+			console.log(rooms);
 		} catch (e) {
 			console.log(e);
 		}
