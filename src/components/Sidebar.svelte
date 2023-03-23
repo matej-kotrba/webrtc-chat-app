@@ -13,7 +13,7 @@
 		<a
 			href="/"
 			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent 
-			duration-150 flex gap-1 items-center"
+			duration-150 flex gap-2 items-center"
 			><iconify-icon icon="ic:round-home" class="text-2xl" /> Home</a
 		>
 		<!-- <div class="separator h-[1px] bg-slate-700" /> -->
@@ -22,7 +22,7 @@
 				href="/rooms"
 				transition:fade
 				class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent
-				 duration-100 relative group/rooms flex gap-1 items-center"
+				 duration-100 relative group/rooms flex gap-2 items-center"
 				><iconify-icon
 					icon="material-symbols:meeting-room-rounded"
 					class="text-2xl"
@@ -34,13 +34,13 @@
 				>
 					<a
 						href="/rooms"
-						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
+						class="whitespace-nowrap flex gap-2 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
 						><iconify-icon icon="material-symbols:search" /> Search Rooms</a
 					>
 					<div class="separator h-[1px] my-2 bg-slate-300" />
 					<a
 						href="/profile/rooms"
-						class="whitespace-nowrap flex gap-1 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
+						class="whitespace-nowrap flex gap-2 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
 						><iconify-icon icon="mdi:user" /> My Rooms</a
 					>
 				</div>
@@ -50,13 +50,13 @@
 		<a
 			href="/profile"
 			transition:fade
-			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-1 items-center"
+			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-2 items-center"
 			><iconify-icon icon="mdi:user" class="text-2xl" /> Profile</a
 		>
 		<a
 			href="/about"
 			transition:fade
-			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-1 items-center"
+			class="py-4 pl-5 pr-20 text-left hover:bg-indigo-800 hover:shadow-xl hover:shadow-indigoTransparent duration-100 flex gap-2 items-center"
 			><iconify-icon icon="mdi:about-circle-outline" class="text-2xl" /> About</a
 		>
 	</div>
