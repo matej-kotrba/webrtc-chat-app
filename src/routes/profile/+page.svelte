@@ -12,6 +12,7 @@
 		deleteDoc
 	} from 'firebase/firestore';
 	import Tooltip from '../../components/Tooltip.svelte';
+	import { goto } from '$app/navigation';
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	type Room = { title: string; id: string };
@@ -28,7 +29,7 @@
 			const idsArray = roomsDocs.docs[0].data().rooms;
 			idsArray.forEach(async (id: string) => {
 				const room = await getDoc(doc(firestore, 'rooms', id));
-				rooms = [...rooms, room.data()] as Room[];
+				rooms = [...rooms, { ...room.data(), id: room.id }] as Room[];
 			});
 		} catch (e) {
 			console.log(e);
@@ -65,15 +66,18 @@
 <div class="mt-20">
 	<h3 class="text-xl">Your rooms:</h3>
 	<div class="flex gap-3 my-4">
-		{#each [{ title: 'Room 1', id: 'asd' }, { title: 'Room 1', id: 'asd' }, { title: 'Room 1', id: 'asd' }] as room}
-			<div class="p-3 bg-indigo-600 rounded-md flex gap-3 items-center">
+		{#each rooms as room}
+			<a
+				class="p-3 bg-indigo-600 rounded-md flex gap-3 items-center"
+				href="/rooms/{room.id}"
+			>
 				<h4>{room.title}</h4>
 				<Tooltip text={'Delete room'}>
-					<button on:click={() => deleteRoom(room.id)}>
+					<button on:click|stopPropagation={() => deleteRoom(room.id)}>
 						<iconify-icon icon="fa6-solid:trash-can" />
 					</button>
 				</Tooltip>
-			</div>
+			</a>
 		{/each}
 	</div>
 </div>
