@@ -39,7 +39,7 @@
 					>
 					<div class="separator h-[1px] my-2 bg-slate-300" />
 					<a
-						href="/profile/rooms"
+						href="/profile"
 						class="whitespace-nowrap flex gap-2 items-center p-2 hover:bg-indigo-600 rounded-md duration-100"
 						><iconify-icon icon="mdi:user" /> My Rooms</a
 					>
