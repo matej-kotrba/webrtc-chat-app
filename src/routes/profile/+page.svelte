@@ -12,25 +12,29 @@
 		deleteDoc
 	} from 'firebase/firestore';
 	import Tooltip from '../../components/Tooltip.svelte';
-	import { goto } from '$app/navigation';
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	type Room = { title: string; id: string };
+	type User = { id: string; name: string; icon: string };
 
+	let friends: User | null = null;
 	let rooms: Room[] = [];
 
-	async function getRooms(user: any) {
+	async function getData(user: any) {
 		try {
 			//TODO: place this on server
 			rooms = [];
 			const usersCollection = collection(firestore, 'users');
 			const q = query(usersCollection, where('id', '==', user.uid));
-			const roomsDocs = await getDocs(q);
-			const idsArray = roomsDocs.docs[0].data().rooms;
+			const data = await getDocs(q);
+			const idsArray = data.docs[0].data().rooms;
 			idsArray.forEach(async (id: string) => {
 				const room = await getDoc(doc(firestore, 'rooms', id));
 				rooms = [...rooms, { ...room.data(), id: room.id }] as Room[];
 			});
+			// friends = data.docs[0].data().friends.forEach(() => {
+
+			// })
 		} catch (e) {
 			console.log(e);
 		}
@@ -53,7 +57,7 @@
 
 	const removeObserver = onAuthStateChanged(auth, async (newUser) => {
 		if (newUser !== null) {
-			await getRooms(newUser);
+			await getData(newUser);
 			removeObserver();
 		}
 	});
@@ -79,6 +83,12 @@
 				</Tooltip>
 			</a>
 		{/each}
+		{#if friends && rooms.length !== 0}
+			<!-- {#each friends as friend}
+		<p>{friend}</p>
+		{/each} -->
+			<p>You have no rooms</p>
+		{/if}
 	</div>
 </div>
 
