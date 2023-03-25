@@ -64,7 +64,10 @@
 				console.log('aaaaa');
 				addDoc(users, {
 					id: newUser!.uid,
-					rooms: []
+					rooms: [],
+					friends: [],
+					nickname: newUser!.displayName,
+					avatarLink: newUser!.photoURL
 				});
 			}
 		});

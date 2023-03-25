@@ -15,9 +15,9 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 
 	type Room = { title: string; id: string };
-	type User = { id: string; name: string; icon: string };
+	type User = { id: string; nickname: string; avatarLink: string };
 
-	let friends: User | null = null;
+	let friends: User[] = [];
 	let rooms: Room[] = [];
 
 	async function getData(user: any) {
@@ -32,9 +32,16 @@
 				const room = await getDoc(doc(firestore, 'rooms', id));
 				rooms = [...rooms, { ...room.data(), id: room.id }] as Room[];
 			});
-			// friends = data.docs[0].data().friends.map((friend: User) => {
-			// 	return { id: friend.id, name: friend.name, icon: friend.icon };
-			// });
+			friends = data.docs[0].data().friends.map(async (friendID: string) => {
+				const friend = (
+					await getDoc(doc(firestore, 'users', friendID))
+				).data() as User;
+				return {
+					id: friend.id,
+					name: friend.nickname,
+					icon: friend.avatarLink
+				};
+			});
 		} catch (e) {
 			console.log(e);
 		}
@@ -69,26 +76,32 @@
 
 <div class="mt-20">
 	<h3 class="text-xl">Your rooms:</h3>
-	<div class="flex gap-3 my-4">
-		{#each rooms as room}
-			<a
-				class="p-3 bg-indigo-600 rounded-md flex gap-3 items-center"
-				href="/rooms/{room.id}"
-			>
-				<h4>{room.title}</h4>
-				<Tooltip text={'Delete room'}>
-					<button on:click|stopPropagation={() => deleteRoom(room.id)}>
-						<iconify-icon icon="fa6-solid:trash-can" />
-					</button>
-				</Tooltip>
-			</a>
-		{/each}
-		{#if friends && rooms.length !== 0}
-			<!-- {#each friends as friend}
-		<p>{friend}</p>
-		{/each} -->
-			<p>You have no rooms</p>
-		{/if}
+	<div class="grid grid-cols-8">
+		<div class="flex gap-3 my-4 col-span-5">
+			{#each rooms as room}
+				<a
+					class="p-3 bg-indigo-600 rounded-md flex gap-3 items-center"
+					href="/rooms/{room.id}"
+				>
+					<h4>{room.title}</h4>
+					<Tooltip text={'Delete room'}>
+						<button on:click|stopPropagation={() => deleteRoom(room.id)}>
+							<iconify-icon icon="fa6-solid:trash-can" />
+						</button>
+					</Tooltip>
+				</a>
+			{/each}
+		</div>
+		<div class="flex flex-col gap-2 col-span-3">
+			{#if friends.length === 0}
+				<p>You have no friends yet 💀</p>
+			{:else}
+				{#each friends as friend}
+					<img src={friend.avatarLink} alt={friend.nickname} />
+					<p>{friend}</p>
+				{/each}
+			{/if}
+		</div>
 	</div>
 </div>
 
