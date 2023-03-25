@@ -32,9 +32,9 @@
 				const room = await getDoc(doc(firestore, 'rooms', id));
 				rooms = [...rooms, { ...room.data(), id: room.id }] as Room[];
 			});
-			// friends = data.docs[0].data().friends.forEach(() => {
-
-			// })
+			// friends = data.docs[0].data().friends.map((friend: User) => {
+			// 	return { id: friend.id, name: friend.name, icon: friend.icon };
+			// });
 		} catch (e) {
 			console.log(e);
 		}
