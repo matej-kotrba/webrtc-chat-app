@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"agora-rtc-sdk-ng": "^4.17.0",
 		"firebase": "^9.17.1",
 		"firebase-admin": "^11.5.0",
 		"iconify-icon": "^1.0.5",
