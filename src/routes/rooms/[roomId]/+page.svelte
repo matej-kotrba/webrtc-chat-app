@@ -7,7 +7,7 @@
 	import { PUBLIC_AGORA_APP_ID } from '$env/static/public';
 	import { user } from '../../../stores/user';
 
-	import AgoraRTC from 'agora-rtc-sdk-ng';
+	import AgoraRTC, { type IAgoraRTCClient } from 'agora-rtc-sdk-ng';
 
 	export let data: PageData;
 
@@ -15,7 +15,7 @@
 		console.log('adsasdasdasd');
 		let token: any = null;
 
-		let client;
+		let client: IAgoraRTCClient | null = null;
 
 		let localTracks = [];
 		let remoteUsers = {};
@@ -27,7 +27,11 @@
 			joinStream();
 		}
 
-		async function joinStream() {}
+		async function joinStream() {
+			if (!client) return;
+			localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
+			await client.publish(localTracks);
+		}
 
 		joinRoomInit();
 	}

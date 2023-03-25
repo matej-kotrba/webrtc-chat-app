@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@sveltejs/adapter-auto': ^2.0.0
   '@sveltejs/kit': ^1.5.0
+  '@types/agora-rtc-sdk': ^3.2.0
   '@typescript-eslint/eslint-plugin': ^5.45.0
   '@typescript-eslint/parser': ^5.45.0
   agora-rtc-sdk-ng: ^4.17.0
@@ -26,6 +27,7 @@ specifiers:
   zod: ^3.21.2
 
 dependencies:
+  '@types/agora-rtc-sdk': 3.2.0
   agora-rtc-sdk-ng: 4.17.0
   firebase: 9.17.1
   firebase-admin: 11.5.0
@@ -1039,6 +1041,13 @@ packages:
     dev: false
     optional: true
 
+  /@types/agora-rtc-sdk/3.2.0:
+    resolution: {integrity: sha512-a45UnqSvqx+N0baGQado51kyth097HfiSmdignVfFhA+4RoHgmt3WSkQUGncPoZrVWJD8/xKkd9vmX8lJ5iKAw==}
+    deprecated: This is a stub types definition. agora-rtc-sdk provides its own type definitions, so you do not need this installed.
+    dependencies:
+      agora-rtc-sdk: 3.6.11
+    dev: false
+
   /@types/body-parser/1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
@@ -1345,6 +1354,11 @@ packages:
     resolution: {integrity: sha512-TmqnvWr7J9cVm62KzE3jhBjVcQpcvxj0GoSMHUylce5GWZrN6rkDLgcPNvhNmPPK5Slqwsx/d70FrWM7T3ngQw==}
     dependencies:
       agora-rte-extension: 1.2.3
+    dev: false
+
+  /agora-rtc-sdk/3.6.11:
+    resolution: {integrity: sha512-/uOlQeLg+GrR3qJe9UQ39GbHK7OrsLobi3t2W4shG5G7pm1CSPZJUYsWksHlcLgZG0fzvxKcDkGeNQ2AleqniQ==}
+    deprecated: This package will be deprecated as it will no longer be supported after July 10, 2023. Agora recommends that you migrate to the latest version 4.X.X immediately
     dev: false
 
   /agora-rte-extension/1.2.3:
