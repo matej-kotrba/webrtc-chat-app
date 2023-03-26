@@ -7,22 +7,28 @@
 	import { PUBLIC_AGORA_APP_ID } from '$env/static/public';
 	import { user } from '../../../stores/user';
 
-	import AgoraRTC, { type IAgoraRTCClient } from 'agora-rtc-sdk-ng';
+	import AgoraRTC from 'agora-rtc-sdk-ng';
+	import type {
+		IAgoraRTCClient,
+		IAgoraRTCRemoteUser,
+		UID
+	} from 'agora-rtc-sdk-ng';
 
 	export let data: PageData;
 
 	$: if (browser && $user) {
-		console.log('adsasdasdasd');
 		let token: any = null;
 
 		let client: IAgoraRTCClient | null = null;
 
 		let localTracks = [];
-		let remoteUsers = {};
+		let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
 
 		async function joinRoomInit() {
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 			await client.join(PUBLIC_AGORA_APP_ID, data.roomId, token, $user!.uid);
+
+			client.on('user-published', handleUserPublished);
 
 			joinStream();
 		}
@@ -30,7 +36,19 @@
 		async function joinStream() {
 			if (!client) return;
 			localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
-			await client.publish(localTracks);
+			// await client.publish(localTracks);
+			localTracks[1].play('localVideo');
+		}
+
+		async function handleUserPublished(
+			user: IAgoraRTCRemoteUser,
+			mediaType: 'video'
+		) {
+			if (!client) return;
+
+			remoteUsers[user.uid] = user;
+
+			await client.subscribe(user, mediaType);
 		}
 
 		joinRoomInit();
@@ -48,5 +66,7 @@
 		</Tooltip>
 	{/if}
 </h2>
+
+<div id="localVideo" class="w-[200px] h-[200px]" />
 
 <!-- <VideoCall roomName={data.roomName} /> -->
