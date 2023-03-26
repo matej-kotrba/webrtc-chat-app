@@ -16,6 +16,8 @@
 
 	export let data: PageData;
 
+	let videoContainer: HTMLDivElement | null = null;
+
 	$: if (browser && $user) {
 		let token: any = null;
 
@@ -23,6 +25,11 @@
 
 		let localTracks = [];
 		let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
+
+		function crateVideoBox(boxId: string) {
+			let videoBox = `<div id="videoBox-${boxId}" class="w-[200px] h-[200px]" />`;
+			if (videoContainer) videoContainer.innerHTML += videoBox;
+		}
 
 		async function joinRoomInit() {
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
@@ -38,6 +45,7 @@
 			localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
 			// await client.publish(localTracks);
 			localTracks[1].play('localVideo');
+			await client.publish(localTracks);
 		}
 
 		async function handleUserPublished(
@@ -49,6 +57,16 @@
 			remoteUsers[user.uid] = user;
 
 			await client.subscribe(user, mediaType);
+
+			// Check if video box already exists
+			if (document.getElementById(`videoBox-${user.uid}`)) return;
+
+			crateVideoBox(user.uid.toString());
+
+			if (mediaType === 'video') {
+				user.videoTrack?.play(`videoBox-${user.uid}`);
+			}
+			user.audioTrack?.play();
 		}
 
 		joinRoomInit();
@@ -68,5 +86,7 @@
 </h2>
 
 <div id="localVideo" class="w-[200px] h-[200px]" />
+
+<div id="video__container" bind:this={videoContainer} />
 
 <!-- <VideoCall roomName={data.roomName} /> -->
