@@ -27,14 +27,21 @@
 		let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
 
 		function crateVideoBox(boxId: string) {
-			let videoBox = `<div id="videoBox-${boxId}" class="w-[200px] h-[200px]" />`;
-			if (videoContainer) videoContainer.innerHTML += videoBox;
+			console.log('adasdasda\n\n\n\n\n\n\n\n\n');
+			let div = document.createElement('div');
+			div.id = `videoBox-${boxId}`;
+			div.classList.add('w-[200px] h-[200px]');
+			if (videoContainer) videoContainer.appendChild(div);
 		}
 
 		async function joinRoomInit() {
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-			await client.join(PUBLIC_AGORA_APP_ID, data.roomId, token, $user!.uid);
-
+			await client.join(
+				PUBLIC_AGORA_APP_ID,
+				data.roomId,
+				token,
+				$user!.uid + String(Math.random())
+			);
 			client.on('user-published', handleUserPublished);
 
 			joinStream();
@@ -45,13 +52,14 @@
 			localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
 			// await client.publish(localTracks);
 			localTracks[1].play('localVideo');
-			await client.publish(localTracks);
+			await client.publish([localTracks[0], localTracks[1]]);
 		}
 
 		async function handleUserPublished(
 			user: IAgoraRTCRemoteUser,
 			mediaType: 'video'
 		) {
+			console.log('adasdasda\n\n\n\n\n\n\n\n\n');
 			if (!client) return;
 
 			remoteUsers[user.uid] = user;
@@ -59,6 +67,7 @@
 			await client.subscribe(user, mediaType);
 
 			// Check if video box already exists
+			console.log(document.getElementById(`videoBox-${user.uid}`));
 			if (document.getElementById(`videoBox-${user.uid}`)) return;
 
 			crateVideoBox(user.uid.toString());
@@ -87,6 +96,6 @@
 
 <div id="localVideo" class="w-[200px] h-[200px]" />
 
-<div id="video__container" bind:this={videoContainer} />
+<div id="videoContainer" bind:this={videoContainer} />
 
 <!-- <VideoCall roomName={data.roomName} /> -->

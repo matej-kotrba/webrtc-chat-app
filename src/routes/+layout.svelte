@@ -43,6 +43,7 @@
 	// Checking if user is logged in
 	onMount(async () => {
 		onAuthStateChanged(auth, async (newUser) => {
+			console.log(newUser);
 			$user = newUser;
 			fetch('/api/userLoginState', {
 				method: 'POST',

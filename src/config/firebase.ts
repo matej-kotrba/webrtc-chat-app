@@ -19,7 +19,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig, String(Math.random()));
 export const firestore = getFirestore(app);
 export const googleAuthProvider = new GoogleAuthProvider();
 export const auth = getAuth(app);
