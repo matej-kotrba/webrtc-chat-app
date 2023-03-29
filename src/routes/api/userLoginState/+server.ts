@@ -2,6 +2,7 @@ import type { RequestHandler } from "@sveltejs/kit"
 
 export const POST: RequestHandler = (async ({ cookies, request }) => {
   const { id } = (await request.json())
+  console.log(id)
   if (!id) {
     cookies.set("userId", "", {
       path: "/",
