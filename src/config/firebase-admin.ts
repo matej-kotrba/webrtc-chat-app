@@ -1,8 +1,8 @@
-import { initializeApp, credential, type ServiceAccount } from "firebase-admin";
+import admin from "firebase-admin";
 import serviceAccount from "./secret"
 
-const app = initializeApp({
-  credential: credential.cert(serviceAccount as ServiceAccount)
-});
+const app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+}, "server");
 
 export const firestore = app.firestore();
