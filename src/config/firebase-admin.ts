@@ -1,5 +1,5 @@
 import { initializeApp, credential, type ServiceAccount } from "firebase-admin";
-import serviceAccount from "./secret.json"
+import serviceAccount from "./secret"
 
 const app = initializeApp({
   credential: credential.cert(serviceAccount as ServiceAccount)
