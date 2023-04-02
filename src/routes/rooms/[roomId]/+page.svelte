@@ -27,30 +27,27 @@
 		let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
 
 		function crateVideoBox(boxId: string) {
-			console.log('adasdasda\n\n\n\n\n\n\n\n\n');
+			console.log(document.getElementById(`videoBox-${boxId}`));
+			if (document.getElementById(`videoBox-${boxId}`)) return;
 			let div = document.createElement('div');
 			div.id = `videoBox-${boxId}`;
-			div.classList.add('w-[200px] h-[200px]');
+			div.classList.add('videoBox');
+			console.log('Container', videoContainer);
 			if (videoContainer) videoContainer.appendChild(div);
 		}
 
 		async function joinRoomInit() {
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
-			await client.join(
-				PUBLIC_AGORA_APP_ID,
-				data.roomId,
-				token,
-				$user!.uid + String(Math.random())
-			);
+			await client.join(PUBLIC_AGORA_APP_ID, data.roomId, token, $user!.uid);
 			client.on('user-published', handleUserPublished);
 
 			joinStream();
 		}
 
 		async function joinStream() {
-			if (!client) return;
+			const localVideo = document.getElementById('localVideo')?.children;
+			if (!client || !localVideo || localVideo.length > 1) return;
 			localTracks = await AgoraRTC.createMicrophoneAndCameraTracks();
-			// await client.publish(localTracks);
 			localTracks[1].play('localVideo');
 			await client.publish([localTracks[0], localTracks[1]]);
 		}
@@ -59,23 +56,22 @@
 			user: IAgoraRTCRemoteUser,
 			mediaType: 'video'
 		) {
-			console.log('adasdasda\n\n\n\n\n\n\n\n\n');
+			console.log('aaaaaaaaa\n\n\n\n\n\n\n\n\n');
 			if (!client) return;
 
 			remoteUsers[user.uid] = user;
 
 			await client.subscribe(user, mediaType);
 
-			// Check if video box already exists
-			console.log(document.getElementById(`videoBox-${user.uid}`));
-			if (document.getElementById(`videoBox-${user.uid}`)) return;
+			//TODO: Check if video box already exists
 
 			crateVideoBox(user.uid.toString());
 
 			if (mediaType === 'video') {
+				if (document.getElementById(`videoBox-${user.uid}`)!.children[0])
+					return;
 				user.videoTrack?.play(`videoBox-${user.uid}`);
 			}
-			user.audioTrack?.play();
 		}
 
 		joinRoomInit();
@@ -96,6 +92,16 @@
 
 <div id="localVideo" class="w-[200px] h-[200px]" />
 
-<div id="videoContainer" bind:this={videoContainer} />
+<div id="videoContainer" class="flex gap-2" bind:this={videoContainer} />
 
 <!-- <VideoCall roomName={data.roomName} /> -->
+<style>
+	#videoContainer {
+		height: 200px;
+	}
+
+	:global(.videoBox) {
+		width: 200px;
+		height: 200px;
+	}
+</style>
