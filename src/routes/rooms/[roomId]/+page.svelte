@@ -18,25 +18,29 @@
 
 	let videoContainer: HTMLDivElement | null = null;
 
+	let activeVideo: HTMLDivElement | null = null;
+
+	let localTracks = [];
+	let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
+
+	let token: any = null;
+
+	let client: IAgoraRTCClient | null = null;
+
 	$: if (browser && $user) {
-		let token: any = null;
-
-		let client: IAgoraRTCClient | null = null;
-
-		let localTracks = [];
-		let remoteUsers: { [index: UID]: IAgoraRTCRemoteUser } = {};
-
 		function crateVideoBox(boxId: string) {
-			console.log(document.getElementById(`videoBox-${boxId}`));
+			// console.log(document.getElementById(`videoBox-${boxId}`));
 			if (document.getElementById(`videoBox-${boxId}`)) return;
 			let div = document.createElement('div');
 			div.id = `videoBox-${boxId}`;
 			div.classList.add('videoBox');
-			console.log('Container', videoContainer);
+			// console.log('Container', videoContainer);
 			if (videoContainer) videoContainer.appendChild(div);
 		}
 
 		async function joinRoomInit() {
+			if (client) return;
+			console.log(client);
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 			await client.join(PUBLIC_AGORA_APP_ID, data.roomId, token, $user!.uid);
 			client.on('user-published', handleUserPublished);
@@ -57,7 +61,7 @@
 			user: IAgoraRTCRemoteUser,
 			mediaType: 'video'
 		) {
-			console.log('aaaaaaaaa\n\n\n\n\n\n\n\n\n');
+			// console.log('aaaaaaaaa\n\n\n\n\n\n\n\n\n');
 			if (!client) return;
 
 			remoteUsers[user.uid] = user;
@@ -66,7 +70,7 @@
 
 			//TODO: Check if video box already exists
 
-			crateVideoBox(user.uid.toString());
+			// crateVideoBox(user.uid.toString());
 
 			if (mediaType === 'video') {
 				if (document.getElementById(`videoBox-${user.uid}`)!.children[0])
@@ -76,6 +80,8 @@
 		}
 
 		async function handleUserLeft(user: IAgoraRTCRemoteUser) {
+			delete remoteUsers[user.uid];
+
 			if (document.getElementById(`videoBox-${user.uid}`)) {
 				document.getElementById(`videoBox-${user.uid}`)!.remove();
 			}
@@ -99,7 +105,11 @@
 
 <div id="localVideo" class="w-[200px] h-[200px]" />
 
-<div id="videoContainer" class="flex gap-2" bind:this={videoContainer} />
+<div id="videoContainer" class="flex gap-2" bind:this={videoContainer}>
+	{#each Object.keys(remoteUsers) as user}
+		<div id={`videoBox-${user}`} class="videoBox" />
+	{/each}
+</div>
 
 <!-- <VideoCall roomName={data.roomName} /> -->
 <style>
