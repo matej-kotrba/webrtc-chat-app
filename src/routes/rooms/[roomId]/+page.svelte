@@ -40,6 +40,7 @@
 			client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
 			await client.join(PUBLIC_AGORA_APP_ID, data.roomId, token, $user!.uid);
 			client.on('user-published', handleUserPublished);
+			client.on('user-left', handleUserLeft);
 
 			joinStream();
 		}
@@ -71,6 +72,12 @@
 				if (document.getElementById(`videoBox-${user.uid}`)!.children[0])
 					return;
 				user.videoTrack?.play(`videoBox-${user.uid}`);
+			}
+		}
+
+		async function handleUserLeft(user: IAgoraRTCRemoteUser) {
+			if (document.getElementById(`videoBox-${user.uid}`)) {
+				document.getElementById(`videoBox-${user.uid}`)!.remove();
 			}
 		}
 
