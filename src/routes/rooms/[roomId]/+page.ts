@@ -1,9 +1,9 @@
-import type { ServerLoad } from "@sveltejs/kit";
+import type { PageLoad } from "./$types";
 import { collection, doc, getDoc } from "firebase/firestore"
 import { firestore } from "../../../config/firebase"
 import { error } from "@sveltejs/kit";
 
-export const load: ServerLoad = async ({ params }) => {
+export const load: PageLoad = async ({ params }) => {
   const id = params.roomId
 
   const rooms = collection(firestore, "rooms")
@@ -16,6 +16,6 @@ export const load: ServerLoad = async ({ params }) => {
   }
   return {
     roomName: docData.title as string,
-    roomId: params.roomId as string
+    roomId: id as string
   }
 }
